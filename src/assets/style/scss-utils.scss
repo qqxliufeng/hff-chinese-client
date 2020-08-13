@@ -1,0 +1,15 @@
+$base-width: 750;
+
+@function px2rem($num) {
+  @return #{$num / $base-width * 10}rem;
+}
+
+@mixin container-base {
+  background-color: #fcf3e4;
+  min-height: 100vh;
+}
+
+@mixin content-wrapper-base {
+  padding-top: 3rem;
+  box-sizing: border-box;
+}

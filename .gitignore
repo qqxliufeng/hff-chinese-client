@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
 /dist
+/0709绘翻翻识字1果成
+test.html
 
 # local env files
 .env.local
