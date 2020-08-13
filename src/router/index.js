@@ -33,6 +33,11 @@ const routes = [
     path: '/read-room-course',
     name: 'courseList',
     component: () => import('../views/read_room/course-list')
+  },
+  {
+    path: '/read-room-content',
+    name: 'contentList',
+    component: () => import('../views/read_room/content-list')
   }
 ]
 

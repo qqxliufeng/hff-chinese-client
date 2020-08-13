@@ -28,7 +28,8 @@ export default {
   data() {
     return {
       style: {
-        borderBottom: this.showBottomLine ? '1px solid #eee' : ''
+        borderBottom: this.showBottomLine ? '1px solid #eee' : '',
+        backgroundColor: '#fcf3e4'
       }
     }
   }

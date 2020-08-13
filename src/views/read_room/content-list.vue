@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <navi title="今日学习" />
+    <navi title="阅读屋" />
     <van-tabs
       class="tabs-container"
       v-model="active"
@@ -12,28 +12,24 @@
       title-active-color="#AF6838"
       color="#AF6838"
     >
-      <van-tab title="复习">
-        <study-review />
+      <van-tab title="词语">
+        <word-content />
       </van-tab>
-      <van-tab title="游戏">
-        <study-review />
-      </van-tab>
-      <van-tab title="运用">
-        <study-review />
-      </van-tab>
-      <van-tab title="闯关">
-        <study-review />
+      <van-tab title="短文">
+        <example-content />
       </van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
-import StudyReview from './components/study-review'
+import WordContent from './components/word-content'
+import ExampleContent from './components/example-content'
 export default {
-  name: 'ToadyStudy',
+  name: 'ContentList',
   components: {
-    StudyReview
+    WordContent,
+    ExampleContent
   },
   data() {
     return {
@@ -46,8 +42,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@/assets/style/scss-utils.scss";
 .container {
-  background-color: #fcf3e4;
-  min-height: 100vh;
+  @include container-base;
   .tabs-container {
     @include tabs-container-base;
   }

@@ -13,3 +13,12 @@ $base-width: 750;
   padding-top: 3rem;
   box-sizing: border-box;
 }
+
+@mixin tabs-container-base {
+  position: fixed;
+  top: 1.2rem;
+  left: 0;
+  right: 0;
+  height: calc(100vh - 1.2rem);
+  overflow-y: scroll;
+}
