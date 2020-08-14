@@ -23,13 +23,17 @@ export default {
     showBottomLine: {
       type: Boolean,
       default: true
+    },
+    bgColor: {
+      type: String,
+      default: '#fcf3e4'
     }
   },
   data() {
     return {
       style: {
         borderBottom: this.showBottomLine ? '1px solid #eee' : '',
-        backgroundColor: '#fcf3e4'
+        backgroundColor: this.bgColor
       }
     }
   }

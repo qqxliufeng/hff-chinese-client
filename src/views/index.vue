@@ -94,6 +94,7 @@
         <div
           class="item-wrapper"
           style="width: 15%"
+          @click="$router.push({ name: 'mine' })"
         >
           我的
         </div>

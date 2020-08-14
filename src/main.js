@@ -14,7 +14,12 @@ import { Tab, Tabs } from 'vant'
 import { Grid, GridItem } from 'vant'
 import { Calendar } from 'vant'
 
-Vue.use(Calendar);
+import { Cell, CellGroup } from 'vant'
+
+Vue.use(Cell)
+Vue.use(CellGroup);
+
+Vue.use(Calendar)
 
 Vue.use(Grid)
 Vue.use(GridItem)

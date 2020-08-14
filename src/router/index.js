@@ -38,6 +38,11 @@ const routes = [
     path: '/read-room-content',
     name: 'contentList',
     component: () => import('../views/read_room/content-list')
+  },
+  {
+    path: '/mine',
+    name: 'mine',
+    component: () => import('../views/mine')
   }
 ]
 
