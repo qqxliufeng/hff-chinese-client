@@ -1,6 +1,9 @@
 <template>
-  <div class="container">
-    <navi :show-bottom-line="false" />
+  <div>
+    <navi
+      :show-bottom-line="false"
+      bg-color="#00000000"
+    />
     <div class="bg" />
     <div class="content flex justify-center align-center flex-direction">
       <div class="bg1 flex justify-center align-center">
@@ -20,43 +23,41 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  .bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("../assets/images/bg_wgzx.jpg");
+  z-index: -1;
+}
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  .item-wrapper {
+    width: 60%;
+    height: 2rem;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    background-image: url("../assets/images/bg_wgzx.jpg");
-    z-index: -1;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: bold;
   }
-  .content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    .item-wrapper {
-      width: 60%;
-      height: 2rem;
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
-      color: #ffffff;
-      font-size: 0.8rem;
-      font-weight: bold;
-    }
-    .bg1 {
-      @extend .item-wrapper;
-      background-image: url("../assets/images/btn_wengu.png");
-    }
-    .bg2 {
-      @extend .item-wrapper;
-      background-image: url("../assets/images/btn_zhixin.png");
-      margin-top: 10%;
-    }
+  .bg1 {
+    @extend .item-wrapper;
+    background-image: url("../assets/images/btn_wengu.png");
+  }
+  .bg2 {
+    @extend .item-wrapper;
+    background-image: url("../assets/images/btn_zhixin.png");
+    margin-top: 10%;
   }
 }
 </style>

@@ -16,6 +16,10 @@ import { Calendar } from 'vant'
 
 import { Cell, CellGroup } from 'vant'
 
+import { Icon } from 'vant'
+
+Vue.use(Icon)
+
 Vue.use(Cell)
 Vue.use(CellGroup);
 
