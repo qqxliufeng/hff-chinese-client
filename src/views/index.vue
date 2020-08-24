@@ -45,7 +45,10 @@
             />
             <div class="item-title flex justify-center align-center">复习</div>
           </div>
-          <div class="item-wrapper">
+          <div
+            class="item-wrapper"
+            @click="$router.push({ name: 'welcomeGame' })"
+          >
             <img
               class="item"
               :src="require('@/assets/images/'+ bookType +'/pic_youxi.jpg')"

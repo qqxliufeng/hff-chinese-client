@@ -43,6 +43,11 @@ const routes = [
     path: '/mine',
     name: 'mine',
     component: () => import('../views/mine')
+  },
+  {
+    path: '/welcome-game',
+    name: 'welcomeGame',
+    component: () => import('../views/welcome-game')
   }
 ]
 

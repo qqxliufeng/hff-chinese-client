@@ -21,7 +21,7 @@ import { Icon } from 'vant'
 Vue.use(Icon)
 
 Vue.use(Cell)
-Vue.use(CellGroup);
+Vue.use(CellGroup)
 
 Vue.use(Calendar)
 
