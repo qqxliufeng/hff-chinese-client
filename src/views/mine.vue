@@ -63,7 +63,7 @@ export default {
           imgSrc: 'icon_wd_ryb.png',
           title: '荣誉分享',
           click: () => {
-            console.log('d')
+            this.$router.push({ name: 'myHonour' })
           }
         }
       ]

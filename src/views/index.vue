@@ -111,7 +111,7 @@ export default {
   name: 'Index',
   data() {
     return {
-      bookType: 'book2',
+      bookType: 'book1',
       bookTitle: '具有特异功能的植物'
     }
   }
