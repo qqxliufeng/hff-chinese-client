@@ -42,21 +42,21 @@ export default {
           imgSrc: 'icon_wd_jrxx.png',
           title: '今日学习',
           click: () => {
-            console.log('a')
+            this.$router.push({ name: 'todayStudy' })
           }
         },
         {
           imgSrc: 'icon_wd_wrxx.png',
           title: '往日学习',
           click: () => {
-            console.log('b')
+            this.$router.push({ name: 'todayStudy' })
           }
         },
         {
           imgSrc: 'icon_wd_fuxi.png',
           title: '复习',
           click: () => {
-            console.log('c')
+            this.$router.push({ name: 'review' })
           }
         },
         {
