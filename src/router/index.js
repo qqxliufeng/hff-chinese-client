@@ -3,10 +3,17 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import Index from '../views/index'
+import Welcome from '../views/welcome'
 
 const routes = [
   {
     path: '/',
+    name: 'welcome',
+    component: Welcome
+  },
+  {
+    path: '/index',
+    name: 'index',
     component: Index
   },
   {
@@ -53,6 +60,21 @@ const routes = [
     path: '/my-honour',
     name: 'myHonour',
     component: () => import('../views/my-honour')
+  },
+  {
+    path: '/bind-phone',
+    name: 'bindPhone',
+    component: () => import('../views/bind-phone')
+  },
+  {
+    path: '/experience-login',
+    name: 'experienceLogin',
+    component: () => import('../views/experience-login')
+  },
+  {
+    path: '/auth',
+    name: 'auth',
+    component: () => import('../views/wx/auth')
   }
 ]
 

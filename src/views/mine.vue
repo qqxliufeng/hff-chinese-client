@@ -7,7 +7,7 @@
     />
     <div class="top-wrapper flex align-center">
       <div class="avatar">
-        <img src="">
+        <img src="" />
       </div>
       <div class="nickname">清清玄~</div>
     </div>
@@ -19,10 +19,10 @@
         @click="item.click"
       >
         <div class="image-wrapper">
-          <img :src="require('@/assets/images/'+item.imgSrc)">
+          <img :src="require('@/assets/images/' + item.imgSrc)" />
         </div>
         <div class="title flex-sub">
-          {{item.title}}
+          {{ item.title }}
         </div>
         <div class="icon-wrapper">
           <van-icon name="arrow" />
@@ -43,21 +43,21 @@ export default {
           title: '今日学习',
           click: () => {
             this.$router.push({ name: 'todayStudy' })
-          }
+          },
         },
         {
           imgSrc: 'icon_wd_wrxx.png',
           title: '往日学习',
           click: () => {
             this.$router.push({ name: 'todayStudy' })
-          }
+          },
         },
         {
           imgSrc: 'icon_wd_fuxi.png',
           title: '复习',
           click: () => {
             this.$router.push({ name: 'review' })
-          }
+          },
         },
         {
           imgSrc: 'icon_wd_ryb.png',

@@ -12,6 +12,9 @@ const user = {
   isBindPhone() {
     return !!this.state.phone
   },
+  hasToken() {
+    return !!this.state.token
+  },
   saveUser(user) {
     this.state.id = user.id
     this.state.name = user.name
