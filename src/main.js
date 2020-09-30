@@ -47,7 +47,7 @@ Vue.use(Toast)
 Vue.use(Field)
 Vue.component('navi', Navi)
 
-const noNeedLoginPageList = ['auth', 'experienceLogin']
+const noNeedLoginPageList = ['auth']
 
 Vue.config.productionTip = false
 
@@ -114,11 +114,21 @@ router.beforeEach((to, form, next) => {
       // 说明是从微信回调回来的
       handleWeixinAuth(next)
     } else {
-      if (user.isLogin()) {
-        if (user.isBindPhone()) {
+      if (user.isLogin()) { // 判断有没有登录
+        if (user.isVipMode()) { // 判断学习模式，是不是vip模式
+          if (user.isBindPhone()) {
+            next()
+          } else {
+            next({ name: 'bindPhone' }) // 没绑定手机号，去绑定手机号
+          }
+        } else if (user.isExperienceMode()) { // 判断学习模式，是不是体验模式
+          if (user.hasExperienceAccount()) {
+            next()
+          } else {
+            next({ name: 'experienceLogin' }) // 没绑定体验账号，去绑定体验账号
+          }
+        } else { // 没有设置任何模式
           next()
-        } else {
-          next({ name: 'BindPhone' }) // 没绑定手机号，去绑定手机号
         }
       } else {
         // 没有登录，去登录

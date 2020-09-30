@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import { STUDY_MODE_EXPERIENCE } from '../data/user'
+import { STUDY_MODE_VIP } from '../data/user'
 export default {
   name: 'Welcome',
   methods: {
@@ -42,9 +44,11 @@ export default {
       })
     },
     startStudy() {
+      this.$user.setStudyMode(STUDY_MODE_VIP)
       this.$router.replace({ name: 'bindPhone' })
     },
     experienceStudy() {
+      this.$user.setStudyMode(STUDY_MODE_EXPERIENCE)
       this.$router.replace({ name: 'experienceLogin' })
     }
   },
