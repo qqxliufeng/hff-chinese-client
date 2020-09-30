@@ -79,7 +79,6 @@ const routes = [
 ]
 
 const vueRouter = new VueRouter({
-  mode: 'history',
   routes,
   scrollBehavior: () => {
     return new Promise((resolve) => {

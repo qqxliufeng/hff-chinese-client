@@ -4,6 +4,7 @@
     :style="style"
   >
     <img
+      v-if="showBack"
       src="@/assets/images/btn_back.png"
       @click="$router.back()"
     >
@@ -19,6 +20,10 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    showBack: {
+      type: Boolean,
+      default: true
     },
     showBottomLine: {
       type: Boolean,

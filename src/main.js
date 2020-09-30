@@ -18,6 +18,7 @@ import { Button } from 'vant'
 import { Cell, CellGroup } from 'vant'
 import { Icon } from 'vant'
 import { Toast } from 'vant'
+import { Field } from 'vant'
 
 import user from './data/user.js'
 
@@ -43,6 +44,7 @@ Vue.use(VanImage)
 Vue.use(Col)
 Vue.use(Row)
 Vue.use(Toast)
+Vue.use(Field)
 Vue.component('navi', Navi)
 
 const noNeedLoginPageList = ['auth', 'experienceLogin']
@@ -137,11 +139,12 @@ function autoLogin(next) {
       console.log(res)
     })
   } else {
-    if (isWeiXin) {
-      window.location.href = urlPath.weixinAuthUrl
-    } else {
-      next()
-    }
+    next()
+    // if (isWeiXin) {
+    //   window.location.href = urlPath.weixinAuthUrl
+    // } else {
+    //   next()
+    // }
   }
 }
 

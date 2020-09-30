@@ -11,8 +11,14 @@
         <div class="tip">把最好的课程带给我最爱的孩子</div>
       </div>
       <div class="action-wrapper">
-        <div class="vip-wrapper">开始学习</div>
-        <div class="experience-wrapper">体验课程</div>
+        <div
+          class="vip-wrapper"
+          @click="startStudy"
+        >开始学习</div>
+        <div
+          class="experience-wrapper"
+          @click="experienceStudy"
+        >体验课程</div>
       </div>
     </div>
   </div>
@@ -34,6 +40,12 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    },
+    startStudy() {
+      this.$router.replace({ name: 'bindPhone' })
+    },
+    experienceStudy() {
+      this.$router.replace({ name: 'experienceLogin' })
     }
   },
   mounted() {
