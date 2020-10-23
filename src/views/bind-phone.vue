@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <navi
-      :showBack="false"
+      :showBack="true"
       title="绑定手机号"
     />
     <div class="content flex flex-direction">

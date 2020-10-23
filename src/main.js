@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import axios from 'axios'
 import App from './App.vue'
 import router from './router'
 
@@ -47,7 +46,7 @@ Vue.use(Toast)
 Vue.use(Field)
 Vue.component('navi', Navi)
 
-const noNeedLoginPageList = ['auth']
+const noNeedLoginPageList = ['auth', 'bindPhone', 'experienceLogin']
 
 Vue.config.productionTip = false
 
@@ -79,14 +78,22 @@ Vue.prototype.$closeLoading = function () {
 }
 
 // 添加网络请求
-Vue.prototype.$http = function ({ url, methods = 'POST', data = {}, beforeRequest = null, afterRequest = null }) {
+Vue.prototype.$http = function ({ url, methods = 'POST', headers = {}, data = {}, loadingTip = '加载中…', beforeRequest = null, afterRequest = null }) {
   if (!url) {
     throw new Error('url is null or undefined')
   }
-  this.$showLoading()
+  this.$showLoading(loadingTip)
   beforeRequest && beforeRequest(methods)
   const handleThenFun = res => {
     this.$closeLoading()
+    // 判断token能没有过期
+    if (res.code === 401) {
+      user.clearToken()
+      if (isWeiXin) {
+        window.location.href = urlPath.weixinAuthUrl
+      }
+      return
+    }
     afterRequest && afterRequest()
     return res
   }
@@ -95,15 +102,15 @@ Vue.prototype.$http = function ({ url, methods = 'POST', data = {}, beforeReques
     afterRequest && afterRequest()
     return error
   }
-  return methods === 'POST' ? http.post(url, data).then(handleThenFun, handleErrorFun) : http.get(url, { params: data }).then(handleThenFun, handleErrorFun)
+  return methods === 'POST' ? http.post(url, data, { headers }).then(handleThenFun, handleErrorFun) : http.get(url, { params: data }).then(handleThenFun, handleErrorFun)
 }
 
-Vue.prototype.$post = function ({ url, data = {}, beforeRequest = null, afterRequest = null }) {
-  return this.$http({ url, methods: 'POST', data, beforeRequest, afterRequest })
+Vue.prototype.$post = function ({ url, data = {}, headers = {}, loadingTip = '加载中…', beforeRequest = null, afterRequest = null }) {
+  return this.$http({ url, methods: 'POST', headers, data, loadingTip, beforeRequest, afterRequest })
 }
 
-Vue.prototype.$get = function ({ url, data = {}, beforeRequest = null, afterRequest = null }) {
-  return this.$http({ url, methods: 'GET', data, beforeRequest, afterRequest })
+Vue.prototype.$get = function ({ url, data = {}, loadingTip = '加载中…', beforeRequest = null, afterRequest = null }) {
+  return this.$http({ url, methods: 'GET', data, loadingTip, beforeRequest, afterRequest })
 }
 
 router.beforeEach((to, form, next) => {
@@ -115,21 +122,22 @@ router.beforeEach((to, form, next) => {
       handleWeixinAuth(next)
     } else {
       if (user.isLogin()) { // 判断有没有登录
-        if (user.isVipMode()) { // 判断学习模式，是不是vip模式
-          if (user.isBindPhone()) {
-            next()
-          } else {
-            next({ name: 'bindPhone' }) // 没绑定手机号，去绑定手机号
-          }
-        } else if (user.isExperienceMode()) { // 判断学习模式，是不是体验模式
-          if (user.hasExperienceAccount()) {
-            next()
-          } else {
-            next({ name: 'experienceLogin' }) // 没绑定体验账号，去绑定体验账号
-          }
-        } else { // 没有设置任何模式
-          next()
-        }
+        next()
+        // if (user.isVipMode()) { // 判断学习模式，是不是vip模式
+        //   if (user.isBindPhone()) {
+        //     next()
+        //   } else {
+        //     next({ name: 'bindPhone' }) // 没绑定手机号，去绑定手机号
+        //   }
+        // } else if (user.isExperienceMode()) { // 判断学习模式，是不是体验模式
+        //   if (user.hasExperienceAccount()) {
+        //     next()
+        //   } else {
+        //     next({ name: 'experienceLogin' }) // 没绑定体验账号，去绑定体验账号
+        //   }
+        // } else { // 没有设置任何模式
+        //   next()
+        // }
       } else {
         // 没有登录，去登录
         autoLogin(next)
@@ -144,17 +152,10 @@ function handleWeixinAuth(next) {
 }
 
 function autoLogin(next) {
-  if (user.hasToken()) {
-    axios.post().then(res => {
-      console.log(res)
-    })
+  if (isWeiXin) {
+    window.location.href = urlPath.weixinAuthUrl
   } else {
     next()
-    // if (isWeiXin) {
-    //   window.location.href = urlPath.weixinAuthUrl
-    // } else {
-    //   next()
-    // }
   }
 }
 

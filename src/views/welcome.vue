@@ -31,21 +31,28 @@ export default {
   name: 'Welcome',
   methods: {
     getData() {
-      this.$post({
-        url: 'doLogin',
-        data: {
-          phone: '18800000000',
-          password: '123123'
-        }
-      }).then((res) => {
-        console.log(res.aa.aa)
-      }).catch(error => {
-        console.log(error)
-      })
+      if (this.$user.getToken()) {
+        this.$get({
+          url: this.$urlPath.getInfo,
+          loadingTip: '登录中…'
+        }).then((res) => {
+          if (res.code === 200) {
+            this.$user.saveUser(res.user)
+          } else {
+            this.$toast('登录失败')
+          }
+        }).catch(error => {
+          this.$toast(error)
+        })
+      }
     },
     startStudy() {
       this.$user.setStudyMode(STUDY_MODE_VIP)
-      this.$router.replace({ name: 'bindPhone' })
+      if (this.$user.isBindPhone()) {
+        this.$router.replace({ name: 'index' })
+      } else {
+        this.$router.replace({ name: 'bindPhone' })
+      }
     },
     experienceStudy() {
       this.$user.setStudyMode(STUDY_MODE_EXPERIENCE)
