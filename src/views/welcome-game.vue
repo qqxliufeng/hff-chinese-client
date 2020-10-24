@@ -10,7 +10,7 @@
         <img :src="require('@/assets/images/pic_yy_cydzz.png')">
       </div>
       <div class="item-wrapper flex justify-center align-center">
-        开始
+        <a href="web-mobile/index.html">开始</a>
       </div>
     </div>
   </div>

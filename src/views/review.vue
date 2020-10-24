@@ -18,7 +18,25 @@
 
 <script>
 export default {
-  name: 'Review'
+  name: 'Review',
+  mounted() {
+    this.getData()
+  },
+  methods: {
+    getData() {
+      this.$post({
+        url: this.$urlPath.dayList,
+        data: {
+          pageNum: 1,
+          pageSize: 10
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(error => {
+        console.log(error)
+      })
+    }
+  }
 }
 </script>
 

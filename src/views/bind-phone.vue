@@ -22,6 +22,7 @@
           label-width="3.2em"
           size="large"
           placeholder="请输入验证码"
+          class="flex align-center"
         >
           <template #button>
             <van-button
@@ -34,7 +35,7 @@
         </van-field>
       </div>
       <div class="button-wrapper">
-        <div>确定绑定</div>
+        <div @click="bindPhone">确定绑定</div>
       </div>
     </div>
     <div class="logo-wrapper">
@@ -64,17 +65,57 @@ export default {
         this.$toast('请输入合法的手机号')
         return
       }
-      this.disabledSMS = true
-      let countNum = 10
-      const countInterval = setInterval(() => {
-        if (countNum === 0) {
-          clearInterval(countInterval)
-          this.disabledSMS = false
-          this.smsTip = '重新发送？'
-        } else {
-          this.smsTip = '剩余时间' + (--countNum) + 's'
+      this.$post({
+        url: this.$urlPath.sendSms,
+        data: {
+          mobile: this.phone
         }
-      }, 1000)
+      }).then(res => {
+        if (res.code === 200) {
+          this.$toast('验证码已发送，请注意查收')
+          this.disabledSMS = true
+          let countNum = 60
+          const countInterval = setInterval(() => {
+            if (countNum === 0) {
+              clearInterval(countInterval)
+              this.disabledSMS = false
+              this.smsTip = '重新发送？'
+            } else {
+              this.smsTip = '剩余时间' + (--countNum) + 's'
+            }
+          }, 1000)
+        } else {
+          this.$toast(res.msg)
+        }
+      }).catch(error => {
+        this.$toast(error)
+      })
+    },
+    bindPhone() {
+      if (!validatePhone(this.phone)) {
+        this.$toast('请输入合法的手机号')
+        return
+      }
+      if (!this.smsCode) {
+        this.$toast('请输入验证码')
+        return
+      }
+      this.$post({
+        url: this.$urlPath.bindMobile,
+        data: {
+          mobile: this.phone,
+          code: this.smsCode
+        }
+      }).then(res => {
+        if (res.code === 200) {
+          this.$toast('手机号绑定成功')
+          this.$router.back()
+        } else {
+          this.$toast(res.msg)
+        }
+      }).catch(error => {
+        this.$toast(error)
+      })
     }
   }
 }

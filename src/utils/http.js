@@ -18,7 +18,7 @@ axios.defaults.baseURL = 'http://syadmin.qjia.tech'
 axios.interceptors.request.use(
   config => {
     if (!config.headers[CONTENT_TYPE]) {
-      config.headers = { 'Content-Type': FORM_URLENCODED }
+      config.headers = { 'Content-Type': APPLICATION_JSON }
     }
     if (config.headers[CONTENT_TYPE] === FORM_URLENCODED) {
       config.data = qs.stringify(config.data)

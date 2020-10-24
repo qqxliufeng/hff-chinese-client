@@ -27,6 +27,7 @@
 <script>
 import { STUDY_MODE_EXPERIENCE } from '../data/user'
 import { STUDY_MODE_VIP } from '../data/user'
+// import { APPLICATION_JSON } from '../utils/http'
 export default {
   name: 'Welcome',
   methods: {
@@ -37,6 +38,8 @@ export default {
           loadingTip: '登录中…'
         }).then((res) => {
           if (res.code === 200) {
+            // TODO -- 把下面一行代码删除了
+            res.user.phonenumberCheck = 1
             this.$user.saveUser(res.user)
           } else {
             this.$toast('登录失败')
@@ -46,17 +49,37 @@ export default {
         })
       }
     },
+    // getData() {
+    //   this.$post({
+    //     url: this.$urlPath.login,
+    //     loadingTip: '登录中…',
+    //     data: {
+    //       code: '123456'
+    //     },
+    //     headers: {
+    //       'Content-Type': APPLICATION_JSON
+    //     }
+    //   }).then((res) => {
+    //     if (res.code === 200) {
+    //       this.$user.saveUser(res.user)
+    //     } else {
+    //       this.$toast('登录失败')
+    //     }
+    //   }).catch(error => {
+    //     this.$toast(error)
+    //   })
+    // },
     startStudy() {
       this.$user.setStudyMode(STUDY_MODE_VIP)
       if (this.$user.isBindPhone()) {
         this.$router.replace({ name: 'index' })
       } else {
-        this.$router.replace({ name: 'bindPhone' })
+        this.$router.push({ name: 'bindPhone' })
       }
     },
     experienceStudy() {
       this.$user.setStudyMode(STUDY_MODE_EXPERIENCE)
-      this.$router.replace({ name: 'experienceLogin' })
+      this.$router.push({ name: 'experienceLogin' })
     }
   },
   mounted() {

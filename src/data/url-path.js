@@ -4,6 +4,16 @@ const baseModule = '/user-api/'
 
 const userModule = baseModule + 'user/'
 
+const courseModule = baseModule + 'course/'
+
 export const login = baseModule + 'login'
 
+export const sendSms = baseModule + 'sendSms'
+
 export const getInfo = userModule + 'getInfo'
+
+export const bindMobile = userModule + 'bindMobile'
+
+export const bindAccount = userModule + 'bindAccount'
+
+export const dayList = courseModule + 'day/list'
