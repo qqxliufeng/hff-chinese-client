@@ -112,7 +112,7 @@ export default {
   data() {
     return {
       bookType: 'book1',
-      bookTitle: '具有特异功能的植物'
+      bookTitle: '我是动物吗'
     }
   }
 }

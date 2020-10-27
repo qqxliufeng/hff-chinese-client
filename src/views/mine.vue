@@ -7,9 +7,9 @@
     />
     <div class="top-wrapper flex align-center">
       <div class="avatar">
-        <img src="" />
+        <img :src="myAvatar" />
       </div>
-      <div class="nickname">清清玄~</div>
+      <div class="nickname">{{$user.state.nickName}}</div>
     </div>
     <div class="content-wrapper">
       <div
@@ -33,10 +33,12 @@
 </template>
 
 <script>
+// import defaultAvatar from '@/assets/logo.png'
 export default {
   name: 'Mine',
   data() {
     return {
+      myAvatar: this.$user.state.avatar ? this.$user.state.avatar : 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3248148350,539651148&fm=26&gp=0.jpg',
       actionItems: [
         {
           imgSrc: 'icon_wd_jrxx.png',
@@ -54,7 +56,7 @@ export default {
         },
         {
           imgSrc: 'icon_wd_fuxi.png',
-          title: '复习',
+          title: '复习记录',
           click: () => {
             this.$router.push({ name: 'review' })
           },
@@ -83,14 +85,15 @@ export default {
     height: 6rem;
     margin-top: -1px;
     .avatar {
-      width: 1.4rem;
-      height: 1.4rem;
+      width: 1.2rem;
+      height: 1.2rem;
       margin-top: 0.6rem;
-      border: 2px solid #ffffff;
-      border-radius: 50%;
       margin-left: 0.5rem;
       & img {
         width: 100%;
+        border-radius: 50%;
+        border: 2px solid #f5f5f5;
+        background-color: #ffffff;
       }
     }
     .nickname {

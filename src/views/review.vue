@@ -28,7 +28,9 @@ export default {
         url: this.$urlPath.dayList,
         data: {
           pageNum: 1,
-          pageSize: 10
+          pageSize: 10,
+          date: '2020-10-10',
+          type: 1
         }
       }).then(res => {
         console.log(res)

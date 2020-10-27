@@ -82,17 +82,24 @@ Vue.prototype.$http = function ({ url, methods = 'POST', headers = {}, data = {}
   if (!url) {
     throw new Error('url is null or undefined')
   }
-  this.$showLoading(loadingTip)
+  if (loadingTip !== null) {
+    this.$showLoading(loadingTip)
+  }
   beforeRequest && beforeRequest(methods)
   const handleThenFun = res => {
-    this.$closeLoading()
-    // 判断token能没有过期
+    if (loadingTip !== null) {
+      this.$closeLoading()
+    }
+    // 判断token有没有过期
     if (res.code === 401) {
       user.clearToken()
       if (isWeiXin) {
         window.location.href = urlPath.weixinAuthUrl
       }
-      return
+      return {
+        code: 401,
+        msg: '登录已过期，请重新登录…'
+      }
     }
     afterRequest && afterRequest()
     return res
@@ -153,7 +160,8 @@ function handleWeixinAuth(next) {
 
 function autoLogin(next) {
   if (isWeiXin) {
-    window.location.href = urlPath.weixinAuthUrl
+    // window.location.href = urlPath.weixinAuthUrl
+    next()
   } else {
     next()
   }

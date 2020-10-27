@@ -10,7 +10,7 @@
         <img :src="require('@/assets/images/pic_yy_cydzz.png')">
       </div>
       <div class="item-wrapper flex justify-center align-center">
-        <a href="web-mobile/index.html">开始</a>
+        <a :href="$startGame({ type: 'review', extra: '123' })">开始</a>
       </div>
     </div>
   </div>
@@ -57,6 +57,12 @@ export default {
     color: #ffffff;
     font-size: 0.5rem;
     font-weight: bold;
+    & a {
+      width: 100%;
+      line-height: 1rem;
+      color: white;
+      text-align: center;
+    }
   }
 }
 </style>

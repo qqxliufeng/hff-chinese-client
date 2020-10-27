@@ -27,7 +27,7 @@
 <script>
 import { STUDY_MODE_EXPERIENCE } from '../data/user'
 import { STUDY_MODE_VIP } from '../data/user'
-// import { APPLICATION_JSON } from '../utils/http'
+import { bindWXReadyListener } from '@/views/wx/wx-utils'
 export default {
   name: 'Welcome',
   methods: {
@@ -38,14 +38,10 @@ export default {
           loadingTip: '登录中…'
         }).then((res) => {
           if (res.code === 200) {
-            // TODO -- 把下面一行代码删除了
-            res.user.phonenumberCheck = 1
             this.$user.saveUser(res.user)
           } else {
-            this.$toast('登录失败')
+            this.$toast(res.msg)
           }
-        }).catch(error => {
-          this.$toast(error)
         })
       }
     },
@@ -83,6 +79,11 @@ export default {
     }
   },
   mounted() {
+    bindWXReadyListener(() => {
+      const audioPath = require('../assets/audio/game_start_' + Math.ceil(Math.random() * 2) + '.mp3')
+      const audio = new Audio(audioPath)
+      audio.play()
+    })
     this.getData()
   }
 }
