@@ -2,24 +2,29 @@
   <div class="container">
     <navi title="阅读屋" />
     <div class="content-wrapper">
-      <div class="content">
-        <div class="title text-cut">第一单元：美丽的四季美丽的四季</div>
-        <div
-          v-for="(item, index) of courseList"
-          :key="index"
-          class="item"
-          @click="$router.push({ name: 'contentList' })"
-        >
-          {{index + item.title}}
+      <div v-if="!showEmptyTip">
+        <div class="content">
+          <div class="title text-cut">第一单元：{{$route.query.title}}</div>
+          <div
+            v-for="(item, index) of courseList"
+            :key="index"
+            class="item"
+            @click="$router.push({ name: 'contentList' })"
+          >
+            {{index + item.title}}
+          </div>
         </div>
       </div>
+      <EmptyTip v-else />
     </div>
   </div>
 </template>
 
 <script>
+import EmptyTip from '@/views/components/empty-tip'
 export default {
   name: 'CourseList',
+  components: { EmptyTip },
   data() {
     return {
       courseList: [
@@ -59,8 +64,27 @@ export default {
         {
           title: '好好学习'
         }
-      ]
+      ],
+      showEmptyTip: true
     }
+  },
+  methods: {
+    getData() {
+      this.$post({
+        url: this.$urlPath.szReadingRoom,
+        data: {
+          unitId: this.$route.query.unitId
+        }
+      }).then(res => {
+        this.showEmptyTip = !res || !res.rows || res.rows.length === 0
+      }).catch(error => {
+        console.log(error)
+        this.showEmptyTip = true
+      })
+    }
+  },
+  mounted() {
+    this.getData()
   }
 }
 </script>
