@@ -114,6 +114,21 @@ export default {
       bookType: 'book1',
       bookTitle: '我是动物吗'
     }
+  },
+  methods: {
+    getData() {
+      this.$post({
+        url: this.$urlPath.szHomePageInfo,
+        data: {}
+      }).then(res => {
+        console.log(res)
+      }).catch(error => {
+        this.$toast(error.message)
+      })
+    }
+  },
+  mounted() {
+    this.getData()
   }
 }
 </script>

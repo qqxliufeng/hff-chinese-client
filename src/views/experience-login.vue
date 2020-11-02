@@ -54,9 +54,20 @@ export default {
         return
       }
       if (!this.password) {
-        this.$toast('请输入密码')
+        this.$toast('请输入账号密码')
         return
       }
+      this.$post({
+        url: this.$urlPath.bindAccount,
+        data: {
+          username: this.account,
+          password: this.password
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(error => {
+        console.log(error)
+      })
     }
   }
 }

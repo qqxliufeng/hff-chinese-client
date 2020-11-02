@@ -20,7 +20,7 @@
         </div>
         <div>
           <span class="circle2"></span>
-          未学完
+          学习中
         </div>
         <div>
           <span class="circle3"></span>
@@ -36,7 +36,9 @@ export default {
   name: 'HonourList',
   data() {
     return {
-      color: '#07c160'
+      color: '#07c160',
+      error: false,
+      dataList: []
     }
   },
   computed: {
@@ -45,17 +47,50 @@ export default {
       return new Date(now.getFullYear(), now.getMonth() - 6, now.getDate());
     }
   },
+  mounted() {
+    this.getData()
+  },
   methods: {
+    getData() {
+      this.$post({
+        url: this.$urlPath.szMonthStastic,
+        data: {
+          dateMonth: "2020-09"
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(error => {
+        // this.error = true
+        this.dataList.push({
+          date: "2020-09-28",
+          studyResult: "3"
+        })
+        this.$toast(error.message)
+      })
+    },
     formatter(day) {
-      const date = day.date.getDate()
+      if (this.error) {
+        day.className = 'calendar-no-study'
+        return day
+      }
+      // const date = day.date.getDate()
       if (day.date > new Date()) {
         day.className = 'calendar-no-study'
         return day
       }
-      if (date % 3 === 0) {
-        day.className = 'calendar-studied'
-      } else if (date % 3 === 1) {
-        day.className = 'calendar-studying'
+      const month = day.date.getMonth() + 1
+      const date = day.date.getDate()
+      const dateStr = day.date.getFullYear() + '-' + (month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date)
+      console.log(dateStr)
+      const item = this.dataList.find(it => it.date === dateStr)
+      if (item) {
+        if (parseInt(item.studyResult) === 1) {
+          day.className = 'calendar-no-study'
+        } else if (parseInt(item.studyResult) === 2) {
+          day.className = 'calendar-studying'
+        } else {
+          day.className = 'calendar-studied'
+        }
       } else {
         day.className = 'calendar-no-study'
       }

@@ -102,7 +102,11 @@ Vue.prototype.$http = function ({ url, methods = 'POST', headers = {}, data = {}
       }
     }
     afterRequest && afterRequest()
-    return res
+    if (res.code && res.code === 200) {
+      return res
+    } else {
+      throw new Error(res.msg || '请求失败…')
+    }
   }
   const handleErrorFun = error => {
     this.$closeLoading()
@@ -160,7 +164,7 @@ function handleWeixinAuth(next) {
 
 function autoLogin(next) {
   if (isWeiXin) {
-    // window.location.href = urlPath.weixinAuthUrl
+    window.location.href = urlPath.weixinAuthUrl
     next()
   } else {
     next()

@@ -31,3 +31,7 @@ export const bindAccount = userModule + 'bindAccount'
 export const dayList = courseModule + 'day/list'
 
 export const szReadingRoom = appStasticModeul + 'szReadingRoom'
+
+export const szHomePageInfo = appStasticModeul + 'szHomePageInfo'
+
+export const szMonthStastic = appStasticModeul + 'szMonthStastic'
