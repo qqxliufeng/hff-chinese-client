@@ -12,10 +12,11 @@
         >
           <div
             class="item-wrapper text-center"
-            v-html="word.title"
+            v-html="word.lore"
           />
         </van-col>
       </van-row>
+      <audio id="wordAudio" />
     </div>
   </div>
 </template>
@@ -25,69 +26,53 @@ export default {
   name: 'WordContent',
   data() {
     return {
-      wordList: [
-        {
-          title: '<b>阳春</b><i>三月</i>'
-        },
-        {
-          title: '<a src="1335"><b>阳春</b></a><i>三月</i>'
-        },
-        {
-          title: '<b>阳春</b><i>三月</i>'
-        },
-        {
-          title: '<b>阳春</b><i>三月</i>'
-        },
-        {
-          title: '<b>阳春</b><i>三月</i>'
-        },
-        {
-          title: '<b>阳春</b><i>三</i><b>月</b>'
-        },
-        {
-          title: '<b>阳春</b><i>三月</i>'
-        },
-        {
-          title: '<b>阳春</b><i>三月</i>'
-        },
-        {
-          title: '<b>阳春</b><i>三月</i>'
-        },
-        {
-          title: '<b>阳春</b><i>三月</i>'
-        },
-        {
-          title: '<b>阳春</b><i>三月</i>'
-        },
-        {
-          title: '<b>阳春</b><i>三月</i>'
-        },
-        {
-          title: '<b>阳春</b><i>三月</i>'
+      wordList: [],
+      tempList: [],
+      showEmptyTip: true
+    }
+  },
+  methods: {
+    getData() {
+      this.$post({
+        url: this.$urlPath.findKnowDetailByCourse,
+        data: {
+          type: 2,
+          courseId: this.$route.query.courseId
         }
-      ],
-      tempList: []
+      }).then(res => {
+        this.wordList = res.data
+        if (this.wordList && this.wordList.length > 0) {
+          this.tempList = []
+          this.wordList.forEach((it, index) => {
+            const tempIndex = parseInt(index / 3)
+            if (!this.tempList[tempIndex]) {
+              this.tempList[tempIndex] = []
+            }
+            it.lore = it.lore.replace(/<a/g, '<i class="href-word-class"').replace(/a>/g, 'i>')
+            this.tempList[tempIndex].push(it)
+          })
+          this.$nextTick(() => {
+            document.getElementsByClassName('href-word-class').forEach(it => {
+              it.onclick = () => {
+                const audio = document.getElementById('wordAudio')
+                const audioPath = 'http://syadmin.qjia.tech' + it.attributes.href.value
+                console.log(audio.paused)
+                if (!audio.paused && audio.src === audioPath) {
+                  return
+                }
+                audio.src = audioPath
+                audio.play()
+              }
+            })
+          })
+        }
+      }).catch(error => {
+        this.$toase(error.message)
+      })
     }
   },
   mounted() {
-    this.tempList = []
-    this.wordList.forEach((it, index) => {
-      const tempIndex = parseInt(index / 3)
-      if (!this.tempList[tempIndex]) {
-        this.tempList[tempIndex] = []
-      }
-      it.title = it.title.replace(/<b/g, '<b style="color: red"').replace(/<i/g, '<i style="color: blue"')
-      this.tempList[tempIndex].push(it)
-    })
-    this.$nextTick(() => {
-      document.getElementsByTagName('a').forEach(it => {
-        it.onclick = () => {
-          const audio = document.createElement('audio')
-          audio.src = 'http://114.55.209.161/adminFile/books/zip/12/words//' + it.attributes.src.value + '.mp3'
-          audio.play()
-        }
-      })
-    })
+    this.getData()
   }
 }
 </script>

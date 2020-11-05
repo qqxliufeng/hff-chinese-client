@@ -6,6 +6,7 @@ const user = {
     userId: sessionStorage.getItem('userId') || undefined,
     nickName: sessionStorage.getItem('nickName') || undefined,
     userName: sessionStorage.getItem('userName') || undefined,
+    wxNickName: sessionStorage.getItem('wxNickName') || undefined,
     phonenumber: sessionStorage.getItem('phonenumber') || undefined,
     phonenumberCheck: sessionStorage.getItem('phonenumberCheck') || undefined,
     accountCheck: sessionStorage.getItem('accountCheck') || undefined,
@@ -41,6 +42,7 @@ const user = {
     this.state.phonenumber = user.phonenumber
     this.state.phonenumberCheck = user.phonenumberCheck || 0
     this.state.avatar = user.avatar
+    this.state.wxNickName = user.wxNickName
     this.state.accountCheck = user.accountCheck || 0
     this.state.userId && sessionStorage.setItem('userId', this.state.userId)
     this.state.nickName && sessionStorage.setItem('nickName', this.state.nickName)
@@ -49,6 +51,7 @@ const user = {
     sessionStorage.setItem('phonenumberCheck', this.state.phonenumberCheck)
     sessionStorage.setItem('accountCheck', this.state.accountCheck)
     this.state.avatar && sessionStorage.setItem('avatar', this.state.avatar)
+    this.state.wxNickName && sessionStorage.getItem('wxNickName', this.state.wxNickName)
   },
   saveToken(token = '') {
     this.state.token = token

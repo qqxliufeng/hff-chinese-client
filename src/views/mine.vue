@@ -9,7 +9,7 @@
       <div class="avatar">
         <img :src="myAvatar" />
       </div>
-      <div class="nickname">{{$user.state.nickName}}</div>
+      <div class="nickname">{{$user.state.wxNickName || $user.state.nickName}}</div>
     </div>
     <div class="content-wrapper">
       <div
@@ -33,12 +33,12 @@
 </template>
 
 <script>
-// import defaultAvatar from '@/assets/logo.png'
+import defaultAvatar from '@/assets/logo.png'
 export default {
   name: 'Mine',
   data() {
     return {
-      myAvatar: this.$user.state.avatar ? this.$user.state.avatar : 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3248148350,539651148&fm=26&gp=0.jpg',
+      myAvatar: this.$user.state.avatar ? this.$user.state.avatar : defaultAvatar,
       actionItems: [
         {
           imgSrc: 'icon_wd_jrxx.png',
@@ -82,11 +82,11 @@ export default {
     background-image: url("../assets/images/bg_wode.png");
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    height: 6rem;
+    height: 5rem;
     margin-top: -1px;
     .avatar {
-      width: 1.2rem;
-      height: 1.2rem;
+      width: 1.5rem;
+      height: 1.5rem;
       margin-top: 0.6rem;
       margin-left: 0.5rem;
       & img {
@@ -99,7 +99,7 @@ export default {
     .nickname {
       margin-top: 0.6rem;
       color: #ffffff;
-      font-size: 0.4rem;
+      font-size: 0.5rem;
       font-weight: bold;
       margin-left: 0.3rem;
     }
@@ -121,7 +121,8 @@ export default {
         }
       }
       .title {
-        font-size: 0.35rem;
+        font-size: 0.4rem;
+        font-weight: bold;
         padding-left: 0.3rem;
       }
       .icon-wrapper {

@@ -9,22 +9,21 @@
         :show-confirm="false"
         :style="{ height: '80%' }"
         :color="color"
+        :default-date="now"
         :min-date="minDate"
-        :max-date="new Date()"
+        :max-date="now"
         :formatter="formatter"
+        @month-show="onMonthShow"
+        @select="onSelect"
       />
       <div class="bottom-wrapper flex-sub flex align-center justify-around">
         <div>
           <span class="circle1"></span>
-          已学完
-        </div>
-        <div>
-          <span class="circle2"></span>
-          学习中
+          已学习
         </div>
         <div>
           <span class="circle3"></span>
-          未开始
+          未学习
         </div>
       </div>
     </div>
@@ -38,59 +37,80 @@ export default {
     return {
       color: '#07c160',
       error: false,
-      dataList: []
+      dataList: [],
+      now: new Date(),
+      cacheMonth: [],
+      isNeedCompare: true
     }
   },
   computed: {
     minDate() {
-      const now = new Date()
-      return new Date(now.getFullYear(), now.getMonth() - 6, now.getDate());
+      return new Date(this.now.getFullYear(), this.now.getMonth() - 6, this.now.getDate());
     }
   },
   mounted() {
-    this.getData()
   },
   methods: {
-    getData() {
+    formatMonth(date = new Date(), showDay = false) {
+      const month = date.getMonth() + 1
+      if (showDay) {
+        const day = date.getDate()
+        return date.getFullYear() + '-' + (month < 10 ? `0${month}` : month) + '-' + (day < 10 ? `0${day}` : day)
+      } else {
+        return date.getFullYear() + '-' + (month < 10 ? `0${month}` : month)
+      }
+    },
+    getData(dateMonth) {
+      if (this.cacheMonth.indexOf(dateMonth) !== -1) {
+        return
+      }
       this.$post({
         url: this.$urlPath.szMonthStastic,
         data: {
-          dateMonth: "2020-09"
+          dateMonth
         }
       }).then(res => {
-        console.log(res)
+        this.cacheMonth.push(dateMonth)
+        this.dataList.push(...res.data)
       }).catch(error => {
-        // this.error = true
-        this.dataList.push({
-          date: "2020-09-28",
-          studyResult: "3"
-        })
+        this.error = true
+        this.cacheMonth.push(dateMonth)
         this.$toast(error.message)
       })
+    },
+    onMonthShow(data) {
+      if (this.isNeedCompare) {
+        const diffDays = parseInt((this.now - data.date) / 1000 / 3600 / 24)
+        if (diffDays > 63) {
+          return
+        } else {
+          this.isNeedCompare = false
+        }
+      }
+      this.getData(this.formatMonth(data.date))
+    },
+    onSelect(date) {
+      const dateStr = this.formatMonth(date, true)
+      const result = this.dataList.find(it => it.date === dateStr)
+      if (result) {
+        console.log(result.date)
+      } else {
+        this.$toast('该日期还没有学习记录呢~')
+      }
     },
     formatter(day) {
       if (this.error) {
         day.className = 'calendar-no-study'
         return day
       }
-      // const date = day.date.getDate()
       if (day.date > new Date()) {
         day.className = 'calendar-no-study'
         return day
       }
-      const month = day.date.getMonth() + 1
-      const date = day.date.getDate()
-      const dateStr = day.date.getFullYear() + '-' + (month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date)
-      console.log(dateStr)
+      const dateStr = this.formatMonth(day.date, true)
       const item = this.dataList.find(it => it.date === dateStr)
       if (item) {
-        if (parseInt(item.studyResult) === 1) {
-          day.className = 'calendar-no-study'
-        } else if (parseInt(item.studyResult) === 2) {
-          day.className = 'calendar-studying'
-        } else {
-          day.className = 'calendar-studied'
-        }
+        day.className = 'calendar-studied'
       } else {
         day.className = 'calendar-no-study'
       }
@@ -140,9 +160,9 @@ export default {
 .van-calendar {
   background-color: transparent;
 }
-.van-calendar >>> .van-calendar__header {
+/* .van-calendar >>> .van-calendar__header {
   background-color: #fcfcfc;
-}
+} */
 .van-calendar >>> .van-calendar__selected-day {
   width: 0;
   height: 0;

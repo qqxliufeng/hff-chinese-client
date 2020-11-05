@@ -6,12 +6,12 @@
         <div class="content">
           <div class="title text-cut">第一单元：{{$route.query.title}}</div>
           <div
-            v-for="(item, index) of courseList"
-            :key="index"
+            v-for="item of courseList"
+            :key="item.id"
             class="item"
-            @click="$router.push({ name: 'contentList' })"
+            @click="startNext(item)"
           >
-            {{index + item.title}}
+            {{item.name}}
           </div>
         </div>
       </div>
@@ -27,44 +27,7 @@ export default {
   components: { EmptyTip },
   data() {
     return {
-      courseList: [
-        {
-          title: '好好学习'
-        },
-        {
-          title: '天天向上'
-        },
-        {
-          title: '天天向上'
-        },
-        {
-          title: '天天向上'
-        },
-        {
-          title: '天天向上'
-        },
-        {
-          title: '天天向上'
-        },
-        {
-          title: '天天向上'
-        },
-        {
-          title: '天天向上'
-        },
-        {
-          title: '天天向上'
-        },
-        {
-          title: '天天向上'
-        },
-        {
-          title: '天天向上'
-        },
-        {
-          title: '好好学习'
-        }
-      ],
+      courseList: [],
       showEmptyTip: true
     }
   },
@@ -77,11 +40,16 @@ export default {
         }
       }).then(res => {
         this.showEmptyTip = !res || !res.data || res.data.length === 0
+        if (!this.showEmptyTip) {
+          this.courseList = res.data
+        }
       }).catch(error => {
-        console.log(error.message)
         this.$toast(error.message)
         this.showEmptyTip = true
       })
+    },
+    startNext(item) {
+      this.$router.push({ name: 'contentList', query: { courseId: item.id } })
     }
   },
   mounted() {

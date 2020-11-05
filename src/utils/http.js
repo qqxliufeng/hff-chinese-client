@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import qs from 'qs'
+import { apiAddress } from '../data/url-path'
 import user from '../data/user'
 
 export const CONTENT_TYPE = 'Content-Type'
@@ -15,7 +16,7 @@ const axios = Axios.create()
 axios.defaults.timeout = 100000
 // axios.defaults.baseURL = 'http://syadmin.qjia.tech'
 // axios.defaults.baseURL = 'http://192.168.1.114:7827'
-axios.defaults.baseURL = 'http://segeg.free.idcfengye.com'
+axios.defaults.baseURL = apiAddress
 
 axios.interceptors.request.use(
   config => {
