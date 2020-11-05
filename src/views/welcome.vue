@@ -39,43 +39,32 @@ export default {
         }).then((res) => {
           if (res.code === 200) {
             this.$user.saveUser(res.user)
-          } else {
-            this.$toast(res.msg)
           }
+        }).catch(error => {
+          console.log(error)
+          this.$toast(error.message)
         })
       }
     },
-    // getData() {
-    //   this.$post({
-    //     url: this.$urlPath.login,
-    //     loadingTip: '登录中…',
-    //     data: {
-    //       code: '123456'
-    //     },
-    //     headers: {
-    //       'Content-Type': APPLICATION_JSON
-    //     }
-    //   }).then((res) => {
-    //     if (res.code === 200) {
-    //       this.$user.saveUser(res.user)
-    //     } else {
-    //       this.$toast('登录失败')
-    //     }
-    //   }).catch(error => {
-    //     this.$toast(error)
-    //   })
-    // },
     startStudy() {
       this.$user.setStudyMode(STUDY_MODE_VIP)
       if (this.$user.isBindPhone()) {
         this.$router.replace({ name: 'index' })
       } else {
-        this.$router.push({ name: 'bindPhone' })
+        window.location.href = this.$urlPath.weixinAuthUrl
       }
     },
     experienceStudy() {
+      if (this.$user.isBindPhone()) {
+        this.$toast('已经绑定过手机号，请直接开始学习')
+        return
+      }
       this.$user.setStudyMode(STUDY_MODE_EXPERIENCE)
-      this.$router.push({ name: 'experienceLogin' })
+      if (this.$user.isBindExpAccount()) {
+        this.$router.replace({ name: 'index' })
+      } else {
+        window.location.href = this.$urlPath.weixinAuthUrl
+      }
     }
   },
   mounted() {

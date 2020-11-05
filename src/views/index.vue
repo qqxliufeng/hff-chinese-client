@@ -8,7 +8,7 @@
       >
         <img
           class="top-img"
-          :src="require('@/assets/images/'+ bookType +'/bg_top.jpg')"
+          :src="require('@/assets/images/book'+ bookSort +'/bg_top.jpg')"
         />
       </div>
       <div
@@ -17,7 +17,7 @@
       >
         <img
           class="top-img"
-          :src="require('@/assets/images/'+ bookType +'/pic_center_img.png')"
+          :src="require('@/assets/images/book'+ bookSort +'/pic_center_img.png')"
         />
       </div>
       <div class="top-img-wrapper title-bg">
@@ -25,10 +25,10 @@
           class="top-img"
           :src="require('@/assets/images/pic_mupai.png')"
         />
-        <span class="title">{{ bookTitle }}</span>
+        <span class="title">{{ bookName }}</span>
       </div>
       <div class="day-wrapper flex justify-center align-center">
-        <span class="day-num">第一天</span>
+        <span class="day-num">第 <span class="text-bold">{{ countNum }}</span> 天</span>
       </div>
       <div
         class="flex-sub"
@@ -37,37 +37,43 @@
         <div class="action-wrapper flex justify-center">
           <div
             class="item-wrapper"
-            @click="$router.push({ name: 'review' })"
+            @click="review()"
           >
             <img
               class="item"
-              :src="require('@/assets/images/'+ bookType +'/pic_fuxi.jpg')"
+              :src="require('@/assets/images/book'+ bookSort +'/pic_fuxi.jpg')"
             />
             <div class="item-title flex justify-center align-center">复习</div>
           </div>
           <div
             class="item-wrapper"
-            @click="$router.push({ name: 'welcomeGame' })"
+            @click="game()"
           >
             <img
               class="item"
-              :src="require('@/assets/images/'+ bookType +'/pic_youxi.jpg')"
+              :src="require('@/assets/images/book'+ bookSort +'/pic_youxi.jpg')"
             />
             <div class="item-title flex justify-center align-center">游戏</div>
           </div>
         </div>
         <div class="action-wrapper flex justify-center margin-top-sm">
-          <div class="item-wrapper">
+          <div
+            class="item-wrapper"
+            @click="apply()"
+          >
             <img
               class="item"
-              :src="require('@/assets/images/'+ bookType +'/pic_yunyong.jpg')"
+              :src="require('@/assets/images/book'+ bookSort +'/pic_yunyong.jpg')"
             />
             <div class="item-title flex justify-center align-center">运用</div>
           </div>
-          <div class="item-wrapper">
+          <div
+            class="item-wrapper"
+            @click="level()"
+          >
             <img
               class="item"
-              :src="require('@/assets/images/'+ bookType +'/pic_chuangguan.jpg')"
+              :src="require('@/assets/images/book'+ bookSort +'/pic_chuangguan.jpg')"
             />
             <div class="item-title flex justify-center align-center">闯关</div>
           </div>
@@ -107,12 +113,21 @@
 </template>
 
 <script>
+// schedule：0 代表什么也开始
+// schedule：1 代表温故学完
+// schedule：2 代表知新学完
+// schedule：3 代表游戏学完
+// schedule：4 代表运用学完
+// schedule：5 代表闯关学完
 export default {
   name: 'Index',
   data() {
     return {
-      bookType: 'book1',
-      bookTitle: '我是动物吗'
+      bookId: 0,
+      bookName: "",
+      bookSort: 1,
+      countNum: 1,
+      schedule: 0,
     }
   },
   methods: {
@@ -121,10 +136,37 @@ export default {
         url: this.$urlPath.szHomePageInfo,
         data: {}
       }).then(res => {
-        console.log(res)
+        this.bookSort = res.data.bookSort
+        this.bookName = res.data.bookName
+        this.schedule = res.data.schedule
+        this.schedule = 2
       }).catch(error => {
         this.$toast(error.message)
       })
+    },
+    review() {
+      this.$router.push({ name: 'review', query: { schedule: this.schedule } })
+    },
+    game() {
+      if (this.schedule >= 2) {
+        this.$router.push({ name: 'welcomeGame', query: { type: 1 } })
+      } else {
+        this.$toast('请先学习新知识才能玩游戏呢~')
+      }
+    },
+    apply() {
+      if (this.schedule >= 3) {
+        this.$router.push({ name: 'welcomeGame', query: { type: 2 } })
+      } else {
+        this.$toast('请先学完游戏中的知识才能进行运用呢~')
+      }
+    },
+    level() {
+      if (this.schedule >= 4) {
+        this.$router.push({ name: 'welcomeGame', query: { type: 3 } })
+      } else {
+        this.$toast('请先学完运用中的知识才能进行闯关呢~')
+      }
     }
   },
   mounted() {

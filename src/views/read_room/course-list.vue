@@ -71,14 +71,15 @@ export default {
   methods: {
     getData() {
       this.$post({
-        url: this.$urlPath.szReadingRoom,
+        url: this.$urlPath.szReadingRoomCourse,
         data: {
-          unitId: this.$route.query.unitId
+          bookId: this.$route.query.unitId
         }
       }).then(res => {
-        this.showEmptyTip = !res || !res.rows || res.rows.length === 0
+        this.showEmptyTip = !res || !res.data || res.data.length === 0
       }).catch(error => {
-        console.log(error)
+        console.log(error.message)
+        this.$toast(error.message)
         this.showEmptyTip = true
       })
     }

@@ -46,7 +46,7 @@ Vue.use(Toast)
 Vue.use(Field)
 Vue.component('navi', Navi)
 
-const noNeedLoginPageList = ['auth', 'bindPhone', 'experienceLogin']
+const noNeedLoginPageList = ['welcome', 'auth', 'bindPhone', 'experienceLogin']
 
 Vue.config.productionTip = false
 
@@ -93,9 +93,9 @@ Vue.prototype.$http = function ({ url, methods = 'POST', headers = {}, data = {}
     // 判断token有没有过期
     if (res.code === 401) {
       user.clearToken()
-      if (isWeiXin) {
-        window.location.href = urlPath.weixinAuthUrl
-      }
+      // if (isWeiXin) {
+      //   window.location.href = urlPath.weixinAuthUrl
+      // }
       return {
         code: 401,
         msg: '登录已过期，请重新登录…'
@@ -111,7 +111,7 @@ Vue.prototype.$http = function ({ url, methods = 'POST', headers = {}, data = {}
   const handleErrorFun = error => {
     this.$closeLoading()
     afterRequest && afterRequest()
-    return error
+    throw new Error(error.msg || '请求失败…')
   }
   return methods === 'POST' ? http.post(url, data, { headers }).then(handleThenFun, handleErrorFun) : http.get(url, { params: data }).then(handleThenFun, handleErrorFun)
 }
@@ -126,49 +126,35 @@ Vue.prototype.$get = function ({ url, data = {}, loadingTip = '加载中…', be
 
 router.beforeEach((to, form, next) => {
   if (noNeedLoginPageList.includes(to.name)) {
-    next()
-  } else {
-    if (location.search && location.search.indexOf('code') !== -1) {
-      // 说明是从微信回调回来的
+    if (to.name === 'welcome' && location.search && location.search.indexOf('code') !== -1) {
       handleWeixinAuth(next)
     } else {
-      if (user.isLogin()) { // 判断有没有登录
-        next()
-        // if (user.isVipMode()) { // 判断学习模式，是不是vip模式
-        //   if (user.isBindPhone()) {
-        //     next()
-        //   } else {
-        //     next({ name: 'bindPhone' }) // 没绑定手机号，去绑定手机号
-        //   }
-        // } else if (user.isExperienceMode()) { // 判断学习模式，是不是体验模式
-        //   if (user.hasExperienceAccount()) {
-        //     next()
-        //   } else {
-        //     next({ name: 'experienceLogin' }) // 没绑定体验账号，去绑定体验账号
-        //   }
-        // } else { // 没有设置任何模式
-        //   next()
-        // }
-      } else {
-        // 没有登录，去登录
-        autoLogin(next)
-      }
+      next()
+    }
+  } else {
+    if (user.isLogin()) { // 判断有没有登录
+      next()
+    } else {
+      // 没有登录，去登录
+      autoLogin(next)
     }
   }
 })
 
 function handleWeixinAuth(next) {
   const urlParams = new URLSearchParams(location.search)
-  next({ name: 'auth', query: { code: urlParams.get('code') } })
+  const code = urlParams.get('code')
+  user.saveWXCode(code)
+  next({ name: 'auth', query: { code } })
 }
 
 function autoLogin(next) {
-  if (isWeiXin) {
-    window.location.href = urlPath.weixinAuthUrl
-    next()
-  } else {
-    next()
-  }
+  next()
+  // if (isWeiXin) {
+  //   window.location.href = urlPath.weixinAuthUrl
+  // } else {
+  //   next()
+  // }
 }
 
 new Vue({

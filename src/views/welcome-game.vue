@@ -7,10 +7,10 @@
     <div class="bg" />
     <div class="content flex justify-center align-center flex-direction">
       <div class="image-wrapper">
-        <img :src="require('@/assets/images/pic_yy_cydzz.png')">
+        <img :src="require('@/assets/images/pic_yy_'+ typeModel.img +'.png')">
       </div>
       <div class="item-wrapper flex justify-center align-center">
-        <a :href="$startGame({ type: 'review', extra: '123' })">开始</a>
+        <a :href="$startGame({ type: typeModel.gameName, extra: '' })">开 始</a>
       </div>
     </div>
   </div>
@@ -18,7 +18,36 @@
 
 <script>
 export default {
-  name: 'WelcomeGame'
+  name: 'WelcomeGame',
+  data() {
+    return {
+      typeModel: {
+        img: 'dwct',
+        gameName: 'game'
+      }
+    }
+  },
+  methods: {
+    setTypeModel() {
+      switch (parseInt(this.$route.query.type)) {
+        case 1:
+          this.typeModel.img = 'dwct'
+          this.typeModel.gameName = 'game'
+          break
+        case 2:
+          this.typeModel.img = 'cydzz'
+          this.typeModel.gameName = 'apply'
+          break
+        case 3:
+          this.typeModel.img = 'sldbp'
+          this.typeModel.gameName = 'level'
+          break
+      }
+    }
+  },
+  mounted() {
+    this.setTypeModel()
+  }
 }
 </script>
 

@@ -13,11 +13,11 @@
           <div
             class="unit-name"
             :style="{ 'color': item.disabled ? '#989898' : '#7c2519'  }"
-          >{{item.unitName}}</div>
+          >{{item.unit}}</div>
           <div
             class="title"
             :style="{ 'color': item.disabled ? '#989898' : '#7c2519'  }"
-          >{{item.title}}</div>
+          >{{item.name}}</div>
         </div>
       </div>
       <EmptyTip v-else />
@@ -34,40 +34,7 @@ export default {
   },
   data() {
     return {
-      unitList: [
-        {
-          unitId: 1,
-          unitName: '第一单元',
-          title: '好好上课，整天就知道玩',
-          disabled: false,
-          actionColor: '#FFDD8F',
-          disabledColor: '#E5E5E5'
-        },
-        {
-          unitId: 2,
-          unitName: '第二单元',
-          title: '好好上课，整天就知道玩',
-          disabled: false,
-          actionColor: '#FFC596',
-          disabledColor: '#E5E5E5'
-        },
-        {
-          unitId: 3,
-          unitName: '第三单元',
-          title: '好好上课，整天就知道玩',
-          disabled: true,
-          actionColor: '#FFA798',
-          disabledColor: '#E5E5E5'
-        },
-        {
-          unitId: 4,
-          unitName: '第四单元',
-          title: '好好上课，整天就知道玩',
-          disabled: false,
-          actionColor: '#9CE99C',
-          disabledColor: '#E5E5E5'
-        }
-      ],
+      unitList: [],
       showEmptyTip: true
     }
   },
@@ -75,18 +42,41 @@ export default {
     enterCourse(item) {
       this.$router.push({
         name: 'courseList', query: {
-          title: item.title,
-          unitId: item.unitId,
+          title: item.name,
+          unitId: item.id,
         }
       })
     },
     getData() {
       this.$post({
-        url: this.$urlPath.szReadingRoom,
+        url: this.$urlPath.szReadingRoomBook,
         data: {}
       }).then(res => {
-        res.rows = this.unitList
-        this.showEmptyTip = !res || !res.rows || res.rows.length === 0
+        this.showEmptyTip = !res || !res.data || res.data.length === 0
+        if (!this.showEmptyTip) {
+          this.unitList = res.data
+          this.unitList.forEach((it, index) => {
+            it.disabledColor = '#E5E5E5'
+            switch (index) {
+              case 0:
+                it.actionColor = '#FFDD8F'
+                break
+              case 1:
+                it.actionColor = '#FFC596'
+                break
+              case 2:
+                it.actionColor = '#FFA798'
+                break
+              case 3:
+                it.actionColor = '#9CE99C'
+                break
+              default:
+                it.actionColor = '#FFDD8F'
+                break
+            }
+            this.$set(it, 'disabled', it.studyResult === 1)
+          })
+        }
       }).catch(error => {
         console.log(error)
         this.showEmptyTip = true
@@ -120,12 +110,12 @@ export default {
     }
     .unit-name {
       @extend .text-style;
-      font-size: 0.2rem;
+      font-size: 0.4rem;
     }
     .title {
       @extend .text-style;
       font-size: 0.45rem;
-      margin-top: 0.2rem;
+      margin-top: 0.3rem;
     }
   }
 }

@@ -13,7 +13,9 @@ export const TEXT_PLAIN = 'text/plain; charset=UTF-8'
 const axios = Axios.create()
 
 axios.defaults.timeout = 100000
-axios.defaults.baseURL = 'http://syadmin.qjia.tech'
+// axios.defaults.baseURL = 'http://syadmin.qjia.tech'
+// axios.defaults.baseURL = 'http://192.168.1.114:7827'
+axios.defaults.baseURL = 'http://segeg.free.idcfengye.com'
 
 axios.interceptors.request.use(
   config => {
@@ -45,7 +47,8 @@ axios.interceptors.response.use(
     if (process.env.NODE_ENV === 'development') {
       console.log(error)
     }
-    return Promise.reject(error)
+    // throw new Error('网络连接失败…')
+    return Promise.reject({ code: 501, msg: '网络连接失败…' })
   }
 )
 

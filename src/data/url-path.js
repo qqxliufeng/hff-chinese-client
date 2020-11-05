@@ -8,9 +8,12 @@ Vue.prototype.$startGame = function (params = null) {
   return basePath
 }
 
-export const weixinAuthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9ea7f0838b6db24a&redirect_uri=http://hff.youcanedu.net/&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect'
+export const baseAddress = 'http://hff.youcanedu.net/'
 
-const baseModule = '/user-api/'
+export const weixinAuthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9ea7f0838b6db24a&redirect_uri=' + baseAddress + '&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect'
+
+// const baseModule = '/user-api/'
+const baseModule = '/'
 
 const userModule = baseModule + 'user/'
 
@@ -30,7 +33,9 @@ export const bindAccount = userModule + 'bindAccount'
 
 export const dayList = courseModule + 'day/list'
 
-export const szReadingRoom = appStasticModeul + 'szReadingRoom'
+export const szReadingRoomBook = appStasticModeul + 'szReadingRoomBook'
+
+export const szReadingRoomCourse = appStasticModeul + 'szReadingRoomCourse'
 
 export const szHomePageInfo = appStasticModeul + 'szHomePageInfo'
 

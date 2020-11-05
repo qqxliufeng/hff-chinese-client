@@ -28,6 +28,12 @@
       <div class="button-wrapper">
         <div @click="login">登录</div>
       </div>
+      <div
+        class="back-index"
+        @click="backIndex"
+      >
+        返回首页
+      </div>
     </div>
     <div class="logo-wrapper">
       <div class="logo">
@@ -39,6 +45,7 @@
 </template>
 
 <script>
+import { baseAddress } from '../data/url-path'
 export default {
   name: 'ExperienceLogin',
   data() {
@@ -61,13 +68,31 @@ export default {
         url: this.$urlPath.bindAccount,
         data: {
           username: this.account,
-          password: this.password
+          password: this.password,
+          code: this.$route.query.code
         }
       }).then(res => {
-        console.log(res)
+        this.$toast('体验账号绑定成功')
+        this.$user.saveToken(res.token)
+        this.$user.saveBindExpAccountState(1)
+        this.getData()
       }).catch(error => {
-        console.log(error)
+        this.$toast(error.message)
       })
+    },
+    getData() {
+      if (this.$user.getToken()) {
+        this.$get({
+          url: this.$urlPath.getInfo,
+          loadingTip: '登录中…'
+        }).then((res) => {
+          this.$user.saveUser(res.user)
+          window.location.href = baseAddress + '#/index'
+        })
+      }
+    },
+    backIndex() {
+      window.location.href = baseAddress
     }
   }
 }
@@ -99,6 +124,11 @@ export default {
       text-align: center;
       background-color: #07c160;
       border-radius: 30px;
+    }
+    .back-index {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 14px;
     }
   }
   .logo-wrapper {

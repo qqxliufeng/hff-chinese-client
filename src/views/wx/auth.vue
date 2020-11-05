@@ -15,21 +15,27 @@ export default {
           'Content-Type': TEXT_PLAIN
         }
       }).then(res => {
-        if (res.code === 200) {
-          this.$user.saveToken(res.token)
-          this.$user.saveBindAccountState(res.bindAccount)
-          window.location.href = 'http://hff.youcanedu.net/'
-        } else {
-          this.$toast('微信绑定失败')
-        }
+        this.$user.saveToken(res.token)
+        this.$user.saveBindAccountState(res.bindAccount)
+        // window.location.href = 'http://hff.youcanedu.net/'
       }).catch(error => {
         console.log(error)
-        this.$toast('微信绑定失败')
+        this.$toast(error.message || '微信绑定失败')
       })
     }
   },
   mounted() {
-    this.login()
+    // this.login()
+    if (this.$user.isVipMode()) {
+      console.log('vip')
+      this.$router.replace({ name: 'bindPhone', query: { code: this.$route.query.code } })
+    } else if (this.$user.isExperienceMode()) {
+      console.log('experience')
+      this.$router.replace({ name: 'experienceLogin', query: { code: this.$route.query.code } })
+    } else {
+      console.log('other')
+      this.$router.replace({ name: 'welcome' })
+    }
   }
 }
 </script>

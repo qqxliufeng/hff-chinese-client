@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <navi
-      :showBack="true"
+      :show-back="false"
       title="绑定手机号"
     />
     <div class="content flex flex-direction">
@@ -35,7 +35,13 @@
         </van-field>
       </div>
       <div class="button-wrapper">
-        <div @click="bindPhone">确定绑定</div>
+        <div @click="bindPhone">绑定</div>
+      </div>
+      <div
+        class="back-index"
+        @click="backIndex"
+      >
+        返回首页
       </div>
     </div>
     <div class="logo-wrapper">
@@ -49,6 +55,7 @@
 
 <script>
 import { validatePhone } from '../utils/utils'
+import { baseAddress } from '../data/url-path'
 export default {
   name: 'BindPhone',
   data() {
@@ -104,18 +111,31 @@ export default {
         url: this.$urlPath.bindMobile,
         data: {
           mobile: this.phone,
-          code: this.smsCode
+          code: this.smsCode,
+          wxCode: this.$route.query.code
         }
       }).then(res => {
-        if (res.code === 200) {
-          this.$toast('手机号绑定成功')
-          this.$router.back()
-        } else {
-          this.$toast(res.msg)
-        }
+        this.$toast('手机号绑定成功')
+        this.$user.saveToken(res.token)
+        this.$user.saveBindAccountState(1)
+        this.getData()
       }).catch(error => {
-        this.$toast(error)
+        this.$toast(error.message)
       })
+    },
+    getData() {
+      if (this.$user.getToken()) {
+        this.$get({
+          url: this.$urlPath.getInfo,
+          loadingTip: '登录中…'
+        }).then((res) => {
+          this.$user.saveUser(res.user)
+          window.location.href = baseAddress + '#/index'
+        })
+      }
+    },
+    backIndex() {
+      window.location.href = baseAddress
     }
   }
 }
@@ -147,6 +167,11 @@ export default {
       text-align: center;
       background-color: #07c160;
       border-radius: 30px;
+    }
+    .back-index {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 14px;
     }
   }
   .logo-wrapper {
