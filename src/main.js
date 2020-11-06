@@ -46,8 +46,6 @@ Vue.use(Toast)
 Vue.use(Field)
 Vue.component('navi', Navi)
 
-user.saveToken('eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImI3NWFjZjRiLTRjMDQtNDM2Ny1hYjI4LWU3NjhjODU3ZmIyMSJ9.80BtOXaDVNfOWo138rvtkh5cxLt8uknLFBapvk_T92UgafDmWBiqsEhi8sd04dVGWe1AroYs0Hq02qlAYKuoYQ')
-
 const noNeedLoginPageList = ['welcome', 'auth', 'bindPhone', 'experienceLogin']
 
 Vue.config.productionTip = false
@@ -146,7 +144,6 @@ router.beforeEach((to, form, next) => {
 function handleWeixinAuth(next) {
   const urlParams = new URLSearchParams(location.search)
   const code = urlParams.get('code')
-  user.saveWXCode(code)
   next({ name: 'auth', query: { code } })
 }
 

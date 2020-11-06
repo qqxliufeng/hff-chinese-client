@@ -93,7 +93,7 @@ export default {
       const dateStr = this.formatMonth(date, true)
       const result = this.dataList.find(it => it.date === dateStr)
       if (result) {
-        console.log(result.date)
+        this.$router.push({ name: 'todayStudy', query: { date: dateStr } })
       } else {
         this.$toast('该日期还没有学习记录呢~')
       }

@@ -68,6 +68,7 @@ const user = {
   clearToken() {
     localStorage.removeItem('token')
     this.state.token = undefined
+    sessionStorage.clear()
   },
   setStudyMode(mode = '') {
     this.state.studyMode = mode

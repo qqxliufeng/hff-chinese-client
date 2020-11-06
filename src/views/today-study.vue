@@ -13,16 +13,16 @@
       color="#AF6838"
     >
       <van-tab title="复习">
-        <study-review />
+        <study-review :knowlegeType="1" />
       </van-tab>
       <van-tab title="游戏">
-        <study-review />
+        <study-review :knowlegeType="1" />
       </van-tab>
       <van-tab title="运用">
-        <study-review />
+        <study-review :knowlegeType="2" />
       </van-tab>
       <van-tab title="闯关">
-        <study-review />
+        <study-review :knowlegeType="3" />
       </van-tab>
     </van-tabs>
   </div>

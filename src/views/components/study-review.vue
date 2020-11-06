@@ -41,7 +41,31 @@
 
 <script>
 export default {
-  name: 'StudyReview'
+  name: 'StudyReview',
+  props: {
+    knowlegeType: {
+      type: Number,
+      default: 1 // 1字，2词，3句，4短文
+    }
+  },
+  methods: {
+    getData() {
+      this.$post({
+        url: this.$urlPath.szReviewDetail,
+        data: {
+          recordDate: this.$route.query.date,
+          type: this.knowlegeType
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(error => {
+        console.log(error)
+      })
+    }
+  },
+  mounted() {
+    this.getData()
+  }
 }
 </script>
 

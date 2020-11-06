@@ -45,4 +45,6 @@ export const szHomePageInfo = appStasticModeul + 'szHomePageInfo'
 
 export const szMonthStastic = appStasticModeul + 'szMonthStastic'
 
+export const szReviewDetail = appStasticModeul + 'szReviewDetail'
+
 export const findKnowDetailByCourse = gameModule + 'findKnowDetailByCourse'
