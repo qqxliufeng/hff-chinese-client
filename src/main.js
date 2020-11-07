@@ -7,6 +7,7 @@ import './assets/style/reset.css'
 import 'vant/lib/index.css'
 
 import Navi from '@/views/components/navi'
+import EmptyTip from '@/views/components/empty-tip'
 
 import { Image as VanImage } from 'vant'
 import { Col, Row } from 'vant'
@@ -45,6 +46,7 @@ Vue.use(Row)
 Vue.use(Toast)
 Vue.use(Field)
 Vue.component('navi', Navi)
+Vue.component('EmptyTip', EmptyTip)
 
 const noNeedLoginPageList = ['welcome', 'auth', 'bindPhone', 'experienceLogin']
 

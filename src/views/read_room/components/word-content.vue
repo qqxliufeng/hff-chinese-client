@@ -1,6 +1,9 @@
 <template>
   <div class="word-content-container">
-    <div class="content-wrapper">
+    <div
+      class="content-wrapper"
+      v-if="!showEmptyTip"
+    >
       <van-row
         v-for="(itemArray, index) of tempList"
         :key="index"
@@ -18,17 +21,19 @@
       </van-row>
       <audio id="wordAudio" />
     </div>
+    <EmptyTip v-else />
   </div>
 </template>
 
 <script>
+import EmptyMixin from '@/mixins/EmptyMixin'
 export default {
   name: 'WordContent',
+  mixins: [EmptyMixin],
   data() {
     return {
       wordList: [],
-      tempList: [],
-      showEmptyTip: true
+      tempList: []
     }
   },
   methods: {
@@ -42,6 +47,7 @@ export default {
       }).then(res => {
         this.wordList = res.data
         if (this.wordList && this.wordList.length > 0) {
+          this.setEmptyState(false)
           this.tempList = []
           this.wordList.forEach((it, index) => {
             const tempIndex = parseInt(index / 3)
@@ -67,7 +73,8 @@ export default {
           })
         }
       }).catch(error => {
-        this.$toase(error.message)
+        this.setEmptyState(true)
+        this.$toast(error.message)
       })
     }
   },
@@ -81,6 +88,8 @@ export default {
 @import "~@/assets/style/scss-utils.scss";
 .word-content-container {
   padding: 0.5rem 0;
+  position: relative;
+  min-height: 80vh;
   .content-wrapper {
     width: 80%;
     margin: 0 auto;
@@ -91,6 +100,9 @@ export default {
       font-size: 0.4rem;
       padding: 0.4rem 0;
     }
+  }
+  .container-empty {
+    position: absolute;
   }
 }
 </style>

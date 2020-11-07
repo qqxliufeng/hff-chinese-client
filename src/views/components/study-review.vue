@@ -1,47 +1,52 @@
 <template>
   <div class="study-review-container">
-    <div class="score-wrapper flex flex-direction align-center justify-center">
-      <div>
-        <span class="score">96</span>
-        <span class="score-pre">%</span>
+    <div v-if="!showEmptyTip">
+      <div class="score-wrapper flex flex-direction align-center justify-center">
+        <div>
+          <span class="score">96</span>
+          <span class="score-pre">%</span>
+        </div>
+        <div class="score-tip">复习正确率</div>
       </div>
-      <div class="score-tip">复习正确率</div>
-    </div>
-    <div class="word-wrapper">
-      <div class="correct">正解字</div>
-      <van-grid
-        :column-num="5"
-        :border="false"
+      <div class="word-wrapper">
+        <div class="correct">正解字</div>
+        <van-grid
+          :column-num="5"
+          :border="false"
+        >
+          <van-grid-item
+            v-for="value in 20"
+            :key="value"
+            text="文"
+          />
+        </van-grid>
+      </div>
+      <div
+        class="word-wrapper"
+        style="margin-top: 1.5rem"
       >
-        <van-grid-item
-          v-for="value in 20"
-          :key="value"
-          text="文"
-        />
-      </van-grid>
+        <div class="error">错误字</div>
+        <van-grid
+          :column-num="5"
+          :border="false"
+        >
+          <van-grid-item
+            v-for="value in 20"
+            :key="value"
+            text="文"
+          />
+        </van-grid>
+      </div>
     </div>
-    <div
-      class="word-wrapper"
-      style="margin-top: 1.5rem"
-    >
-      <div class="error">错误字</div>
-      <van-grid
-        :column-num="5"
-        :border="false"
-      >
-        <van-grid-item
-          v-for="value in 20"
-          :key="value"
-          text="文"
-        />
-      </van-grid>
-    </div>
+    <EmptyTip v-else />
   </div>
 </template>
 
 <script>
+import EmptyMixin from '@/mixins/EmptyMixin'
 export default {
   name: 'StudyReview',
+  mixins: [EmptyMixin],
   props: {
     knowlegeType: {
       type: Number,
@@ -57,9 +62,11 @@ export default {
           type: this.knowlegeType
         }
       }).then(res => {
+        this.setEmptyState(false)
         console.log(res)
       }).catch(error => {
-        console.log(error)
+        this.setEmptyState(true)
+        this.$toast(error.message)
       })
     }
   },
@@ -72,6 +79,11 @@ export default {
 <style lang="scss" scoped>
 .study-review-container {
   padding-bottom: 20px;
+  min-height: 80vh;
+  position: relative;
+  .container-empty {
+    position: absolute;
+  }
   .score-wrapper {
     margin: 1rem 0;
     .score {

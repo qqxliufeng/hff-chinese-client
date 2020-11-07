@@ -1,19 +1,24 @@
 <template>
   <div class="example-content-container">
-    <div
-      class="content-wrapper"
-      v-for="item of list"
-      :key="item.id"
-      v-html="item.lore"
-    >
+    <div v-if="!showEmptyTip">
+      <div
+        class="content-wrapper"
+        v-for="item of list"
+        :key="item.id"
+        v-html="item.lore"
+      >
+      </div>
+      <audio id="exampleAudio" />
     </div>
-    <audio id="exampleAudio" />
+    <EmptyTip v-else />
   </div>
 </template>
 
 <script>
+import EmptyMixin from '@/mixins/EmptyMixin'
 export default {
   name: 'ExampleContent',
+  mixins: [EmptyMixin],
   data() {
     return {
       list: []
@@ -30,6 +35,7 @@ export default {
       }).then(res => {
         this.list = res.data
         if (this.list && this.list.length > 0) {
+          this.setEmptyState(false)
           this.list.forEach(it => {
             it.lore = it.lore.replace(/<a/g, '<i class="href-content-class"').replace(/a>/g, 'i>')
           })
@@ -49,6 +55,7 @@ export default {
           })
         }
       }).catch(error => {
+        this.setEmptyState(true)
         this.$toast(error.message)
       })
     }
@@ -61,6 +68,8 @@ export default {
 
 <style lang="scss" scoped>
 .example-content-container {
+  position: relative;
+  min-height: 80vh;
   .content-wrapper {
     width: 80%;
     margin: 0 auto;
@@ -70,6 +79,9 @@ export default {
     margin-top: 0.5rem;
     font-size: 0.4rem;
     line-height: 1.7;
+  }
+  .container-empty {
+    position: absolute;
   }
 }
 </style>
