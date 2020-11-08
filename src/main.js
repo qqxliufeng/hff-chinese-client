@@ -68,6 +68,10 @@ Vue.prototype.$isWeiXin = isWeiXin
 // 把所有的url添加到原型链上
 Vue.prototype.$urlPath = urlPath
 
+Toast.setDefaultOptions({
+  position: 'bottom'
+})
+
 // 添加loading提示
 Vue.prototype.$showLoading = function (tip = '加载中...') {
   Toast.loading({

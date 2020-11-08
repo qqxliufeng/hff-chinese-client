@@ -41,7 +41,6 @@ export default {
             this.$user.saveUser(res.user)
           }
         }).catch(error => {
-          console.log(error)
           this.$toast(error.message)
         })
       }
