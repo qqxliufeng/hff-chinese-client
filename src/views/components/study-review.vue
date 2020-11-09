@@ -9,7 +9,7 @@
         <div class="score-tip">复习正确率</div>
       </div>
       <div class="word-wrapper">
-        <div class="correct">正解字</div>
+        <div class="correct">正确字</div>
         <van-grid
           :column-num="5"
           :border="false"

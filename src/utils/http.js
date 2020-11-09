@@ -14,8 +14,6 @@ export const TEXT_PLAIN = 'text/plain; charset=UTF-8'
 const axios = Axios.create()
 
 axios.defaults.timeout = 100000
-// axios.defaults.baseURL = 'http://syadmin.qjia.tech'
-// axios.defaults.baseURL = 'http://192.168.1.114:7827'
 axios.defaults.baseURL = apiAddress
 
 axios.interceptors.request.use(

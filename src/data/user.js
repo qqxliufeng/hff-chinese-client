@@ -36,7 +36,7 @@ const user = {
     return this.state.studyMode === 'experience'
   },
   saveUser(user) {
-    this.state.userId = user.useruserId
+    this.state.userId = user.userId
     this.state.nickName = user.nickName
     this.state.userName = user.userName
     this.state.phonenumber = user.phonenumber

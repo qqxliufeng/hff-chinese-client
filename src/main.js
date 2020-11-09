@@ -75,7 +75,10 @@ Toast.setDefaultOptions({
 // 添加loading提示
 Vue.prototype.$showLoading = function (tip = '加载中...') {
   Toast.loading({
-    message: tip, forbidClick: false, loadingType: 'spinner'
+    message: tip,
+    forbidClick: false,
+    loadingType: 'spinner',
+    position: 'middle'
   })
 }
 // 关闭loading提示
