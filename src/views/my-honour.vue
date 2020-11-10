@@ -9,7 +9,7 @@
         <img :src="require('../assets/logo.png')">
       </div>
       <div class="title">
-        我家宝贝<i>张慧慧</i>在绘翻翻快乐识字完成了第<i>20</i>天的学习。
+        我家宝贝<i>{{ dataModel.userName }}</i>在绘翻翻快乐识字完成了第<i>{{dataModel.daysNum}}</i>天的学习。
       </div>
       <div class="cup-wrapper">
         <img :src="require('../assets/images/pic_my_jiangbei.png')">
@@ -23,7 +23,7 @@
             <div class="top flex-sub flex justify-center align-center">
               <div class="left flex-sub">
                 <div class="count-title">
-                  200个
+                  {{dataModel.wordsNum}}个
                 </div>
                 <div>
                   累计识字
@@ -32,7 +32,7 @@
               <div class="center" />
               <div class="right flex-sub">
                 <div class="count-title">
-                  200个
+                  {{dataModel.sentencesNum}}个
                 </div>
                 <div>
                   累计阅读
@@ -40,22 +40,55 @@
               </div>
             </div>
             <div class="bottom">
-              数据截止到：2020-08-31
+              数据截止到：{{dataModel.endDate}}
             </div>
           </div>
         </div>
       </div>
       <div class="bottom-wrapper flex-sub flex flex-direction align-center justify-center">
         <div class="tip">把最好的课程带给我最爱的孩子</div>
-        <div class="share-button">立即分享</div>
+        <div
+          class="share-button"
+          @click="share"
+        >立即分享</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { formatMonth } from '../utils/utils'
 export default {
-  name: 'MyHonour'
+  name: 'MyHonour',
+  data() {
+    return {
+      dataModel: {},
+      canShare: false
+    }
+  },
+  mounted() {
+    this.getData()
+  },
+  methods: {
+    getData() {
+      this.$post({
+        url: this.$urlPath.szShareStastic,
+        data: {}
+      }).then(res => {
+        this.canShare = true
+        this.dataModel = res.data
+        this.dataModel.endDate = formatMonth(new Date(), true)
+      }).catch(error => {
+        this.canShare = false
+        this.$toast(error.message)
+      })
+    },
+    share() {
+      if (this.canShare) {
+        console.log('1')
+      }
+    }
+  }
 }
 </script>
 
@@ -155,7 +188,8 @@ export default {
       .share-button {
         border-radius: 30px;
         background-color: #ffb047;
-        width: 2.5rem;
+        width: 100%;
+        margin: 0 auto;
         text-align: center;
         color: #ffffff;
         padding: 0.2rem 0;

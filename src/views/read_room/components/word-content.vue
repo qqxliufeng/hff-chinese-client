@@ -27,6 +27,7 @@
 
 <script>
 import EmptyMixin from '@/mixins/EmptyMixin'
+import { getAudioPath } from '@/utils/utils'
 export default {
   name: 'WordContent',
   mixins: [EmptyMixin],
@@ -61,9 +62,8 @@ export default {
             document.getElementsByClassName('href-word-class').forEach(it => {
               it.onclick = () => {
                 const audio = document.getElementById('wordAudio')
-                const audioPath = 'http://syadmin.qjia.tech' + it.attributes.href.value
-                console.log(audio.paused)
-                if (!audio.paused && audio.src === audioPath) {
+                const audioPath = getAudioPath(it.attributes.href.value)
+                if (audioPath && !audio.paused && audio.src === audioPath) {
                   return
                 }
                 audio.src = audioPath

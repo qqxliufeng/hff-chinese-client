@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <navi title="今日学习" />
+    <navi :title="title" />
     <van-tabs
       class="tabs-container"
       v-model="active"
@@ -16,13 +16,13 @@
         <study-review :knowlegeType="1" />
       </van-tab>
       <van-tab title="游戏">
-        <study-review :knowlegeType="1" />
+        <study-review :knowlegeType="3" />
       </van-tab>
       <van-tab title="运用">
-        <study-review :knowlegeType="2" />
+        <study-review :knowlegeType="4" />
       </van-tab>
       <van-tab title="闯关">
-        <study-review :knowlegeType="3" />
+        <study-review :knowlegeType="5" />
       </van-tab>
     </van-tabs>
   </div>
@@ -37,7 +37,8 @@ export default {
   },
   data() {
     return {
-      active: 0
+      active: 0,
+      title: this.$route.query.date + '学习记录'
     }
   }
 }

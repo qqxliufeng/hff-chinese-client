@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { formatMonth } from '../utils/utils';
 export default {
   name: 'HonourList',
   data() {
@@ -51,15 +52,6 @@ export default {
   mounted() {
   },
   methods: {
-    formatMonth(date = new Date(), showDay = false) {
-      const month = date.getMonth() + 1
-      if (showDay) {
-        const day = date.getDate()
-        return date.getFullYear() + '-' + (month < 10 ? `0${month}` : month) + '-' + (day < 10 ? `0${day}` : day)
-      } else {
-        return date.getFullYear() + '-' + (month < 10 ? `0${month}` : month)
-      }
-    },
     getData(dateMonth) {
       if (this.cacheMonth.indexOf(dateMonth) !== -1) {
         return
@@ -87,10 +79,10 @@ export default {
           this.isNeedCompare = false
         }
       }
-      this.getData(this.formatMonth(data.date))
+      this.getData(formatMonth(data.date))
     },
     onSelect(date) {
-      const dateStr = this.formatMonth(date, true)
+      const dateStr = formatMonth(date, true)
       const result = this.dataList.find(it => it.date === dateStr)
       if (result) {
         this.$router.push({ name: 'todayStudy', query: { date: dateStr } })
@@ -107,7 +99,7 @@ export default {
         day.className = 'calendar-no-study'
         return day
       }
-      const dateStr = this.formatMonth(day.date, true)
+      const dateStr = formatMonth(day.date, true)
       const item = this.dataList.find(it => it.date === dateStr)
       if (item) {
         day.className = 'calendar-studied'

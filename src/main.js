@@ -19,6 +19,7 @@ import { Cell, CellGroup } from 'vant'
 import { Icon } from 'vant'
 import { Toast } from 'vant'
 import { Field } from 'vant'
+import { Dialog } from 'vant'
 
 import user from './data/user.js'
 
@@ -45,6 +46,7 @@ Vue.use(Col)
 Vue.use(Row)
 Vue.use(Toast)
 Vue.use(Field)
+Vue.use(Dialog)
 Vue.component('navi', Navi)
 Vue.component('EmptyTip', EmptyTip)
 

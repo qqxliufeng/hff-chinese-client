@@ -82,7 +82,7 @@
       <div class="nav-wrapper flex justify-around  align-center">
         <div
           class="item-wrapper"
-          @click="$router.push({ name: 'todayStudy' })"
+          @click="startTodayStudy"
         >
           今日阅读
         </div>
@@ -113,6 +113,7 @@
 </template>
 
 <script>
+import { formatMonth } from '../utils/utils'
 // schedule：0 代表什么也开始
 // schedule：1 代表温故学完
 // schedule：2 代表知新学完
@@ -143,6 +144,9 @@ export default {
       }).catch(error => {
         this.$toast(error.message)
       })
+    },
+    startTodayStudy() {
+      this.$router.push({ name: 'todayStudy', query: { date: formatMonth(new Date(), true) } })
     },
     review() {
       this.$router.push({ name: 'review', query: { schedule: this.schedule } })

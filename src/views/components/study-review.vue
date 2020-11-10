@@ -3,10 +3,10 @@
     <div v-if="!showEmptyTip">
       <div class="score-wrapper flex flex-direction align-center justify-center">
         <div>
-          <span class="score">96</span>
+          <span class="score">{{dataModel.correctRate && dataModel.correctRate.replace('%','')}}</span>
           <span class="score-pre">%</span>
         </div>
-        <div class="score-tip">复习正确率</div>
+        <div class="score-tip">正确率</div>
       </div>
       <div class="word-wrapper">
         <div class="correct">正确字</div>
@@ -15,10 +15,11 @@
           :border="false"
         >
           <van-grid-item
-            v-for="value in 20"
-            :key="value"
-            text="文"
-          />
+            v-for="(value, index) of dataModel.correctList"
+            :key="index"
+          >
+            <div v-html="value" />
+          </van-grid-item>
         </van-grid>
       </div>
       <div
@@ -31,12 +32,14 @@
           :border="false"
         >
           <van-grid-item
-            v-for="value in 20"
-            :key="value"
-            text="文"
-          />
+            v-for="(value, index) of dataModel.errorList"
+            :key="index"
+          >
+            <div v-html="value" />
+          </van-grid-item>
         </van-grid>
       </div>
+      <audio id="correctAudio" />
     </div>
     <EmptyTip v-else />
   </div>
@@ -44,13 +47,19 @@
 
 <script>
 import EmptyMixin from '@/mixins/EmptyMixin'
+import { getAudioPath } from '@/utils/utils'
 export default {
   name: 'StudyReview',
   mixins: [EmptyMixin],
   props: {
     knowlegeType: {
       type: Number,
-      default: 1 // 1字，2词，3句，4短文
+      default: 1 // 1复习  2知新 3游戏 4运用 5闯关
+    }
+  },
+  data() {
+    return {
+      dataModel: {}
     }
   },
   methods: {
@@ -62,8 +71,29 @@ export default {
           type: this.knowlegeType
         }
       }).then(res => {
+        if (!res.data) {
+          this.setEmptyState(true)
+          return
+        }
         this.setEmptyState(false)
-        console.log(res)
+        this.dataModel = res.data
+        this.dataModel.correctList = res.data.correctList.map(it => it.replace(/<a/g, '<i class="href-correct-class"').replace(/a>/g, 'i>'))
+        this.dataModel.errorList = res.data.errorList.map(it => it.replace(/<a/g, '<i class="href-correct-class"').replace(/a>/g, 'i>'))
+        this.$nextTick(() => {
+          document.getElementsByClassName('href-correct-class').forEach(it => {
+            it.style.fontSize = '18px'
+            it.style.color = '#333333'
+            it.onclick = () => {
+              const audio = document.getElementById('correctAudio')
+              const audioPath = getAudioPath(it.attributes.href.value)
+              if (audioPath && !audio.paused && audio.src === audioPath) {
+                return
+              }
+              audio.src = audioPath
+              audio.play()
+            }
+          })
+        })
       }).catch(error => {
         this.setEmptyState(true)
         this.$toast(error.message)

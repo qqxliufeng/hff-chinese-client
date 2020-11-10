@@ -73,6 +73,20 @@ const user = {
   setStudyMode(mode = '') {
     this.state.studyMode = mode
     sessionStorage.setItem('studyMode', mode)
+  },
+  unBindAccount() {
+    localStorage.clear()
+    sessionStorage.clear()
+    this.state.userId = undefined
+    this.state.nickName = undefined
+    this.state.userName = undefined
+    this.state.phonenumber = undefined
+    this.state.phonenumberCheck = 0
+    this.state.avatar = undefined
+    this.state.wxNickName = undefined
+    this.state.accountCheck = 0
+    this.state.token = undefined
+    this.state.studyMode = ''
   }
 }
 

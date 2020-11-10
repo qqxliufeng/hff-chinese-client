@@ -35,6 +35,10 @@ export const bindMobile = userModule + 'bindMobile'
 
 export const bindAccount = userModule + 'bindAccount'
 
+export const unBindAccount = userModule + 'unbind'
+
+export const elfList = userModule + 'elf/list'
+
 export const dayList = courseModule + 'day/list'
 
 export const szReadingRoomBook = appStasticModeul + 'szReadingRoomBook'
@@ -46,5 +50,7 @@ export const szHomePageInfo = appStasticModeul + 'szHomePageInfo'
 export const szMonthStastic = appStasticModeul + 'szMonthStastic'
 
 export const szReviewDetail = appStasticModeul + 'szReviewDetail'
+
+export const szShareStastic = appStasticModeul + 'szShareStastic'
 
 export const findKnowDetailByCourse = gameModule + 'findKnowDetailByCourse'

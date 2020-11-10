@@ -34,6 +34,8 @@
 
 <script>
 import defaultAvatar from '@/assets/logo.png'
+import { Dialog } from 'vant'
+import { baseAddress } from '../data/url-path'
 export default {
   name: 'Mine',
   data() {
@@ -41,31 +43,51 @@ export default {
       myAvatar: this.$user.state.avatar ? this.$user.state.avatar : defaultAvatar,
       actionItems: [
         {
-          imgSrc: 'icon_wd_jrxx.png',
-          title: '今日学习',
-          click: () => {
-            this.$router.push({ name: 'todayStudy' })
-          },
-        },
-        {
           imgSrc: 'icon_wd_wrxx.png',
-          title: '往日学习',
+          title: '学习记录',
           click: () => {
             this.$router.push({ name: 'todayStudy' })
           },
         },
         {
-          imgSrc: 'icon_wd_fuxi.png',
-          title: '复习记录',
+          imgSrc: 'icon_wd_wdry.png',
+          title: '我的荣誉',
           click: () => {
-            this.$router.push({ name: 'review' })
-          },
+            this.$router.push({ name: 'myHonour' })
+          }
         },
         {
           imgSrc: 'icon_wd_ryb.png',
           title: '荣誉分享',
           click: () => {
             this.$router.push({ name: 'myHonour' })
+          }
+        },
+        {
+          imgSrc: 'icon_wd_jbwx.png',
+          title: '解绑微信',
+          click: () => {
+            Dialog.confirm({
+              title: '提示',
+              message: '是否要把当前账号和微信账号解除绑定？',
+            })
+              .then(() => {
+                this.$post({
+                  url: this.$urlPath.unBindAccount,
+                  data: {}
+                }).then(res => {
+                  if (res.code === 200) {
+                    this.$user.unBindAccount()
+                    this.$toast('账号解绑成功')
+                    window.location.href = baseAddress
+                  }
+                }).catch(error => {
+                  this.$toast(error.message)
+                })
+              })
+              .catch(() => {
+                console.log('取消了')
+              })
           }
         }
       ]
@@ -121,7 +143,7 @@ export default {
         }
       }
       .title {
-        font-size: 0.4rem;
+        font-size: 0.35rem;
         font-weight: bold;
         padding-left: 0.3rem;
       }
