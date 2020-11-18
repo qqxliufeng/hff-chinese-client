@@ -25,30 +25,12 @@
 <script>
 export default {
   name: 'Review',
-  mounted() {
-    this.getData()
-  },
   data() {
     return {
       schedule: Math.max(parseInt(this.$route.query.schedule), -1) // -1 代表是一个新用户，可以不用复习，直接学习新知识
     }
   },
   methods: {
-    getData() {
-      this.$post({
-        url: this.$urlPath.dayList,
-        data: {
-          pageNum: 1,
-          pageSize: 10,
-          date: '2020-10-10',
-          type: 1
-        }
-      }).then(res => {
-        console.log(res)
-      }).catch(error => {
-        console.log(error)
-      })
-    },
     reivew() {
       if (this.schedule === -1) {
         this.$toast('还没有开始学习任何知识哦~')

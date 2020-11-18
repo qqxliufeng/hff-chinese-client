@@ -12,9 +12,9 @@
         class="word-wrapper"
         v-if="dataModel.correctList && dataModel.correctList.length > 0"
       >
-        <div class="correct">正确字</div>
+        <div class="correct">正确词语</div>
         <van-grid
-          :column-num="5"
+          :column-num="2"
           :border="false"
         >
           <van-grid-item
@@ -30,9 +30,9 @@
         style="margin-top: 1.5rem"
         v-if="dataModel.errorList && dataModel.errorList.length > 0"
       >
-        <div class="error">错误字</div>
+        <div class="error">错误词语</div>
         <van-grid
-          :column-num="5"
+          :column-num="2"
           :border="false"
         >
           <van-grid-item

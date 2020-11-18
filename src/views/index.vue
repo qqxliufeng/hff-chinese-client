@@ -25,10 +25,10 @@
           class="top-img"
           :src="require('@/assets/images/pic_mupai.png')"
         />
-        <span class="title">{{ bookName }}</span>
+        <span class="title">{{ courseName }}</span>
       </div>
       <div class="day-wrapper flex justify-center align-center">
-        <span class="day-num">第 <span class="text-bold">{{ countNum }}</span> 天</span>
+        <span class="day-num">第 <span class="text-bold">{{ whichDay }}</span> 天</span>
       </div>
       <div
         class="flex-sub"
@@ -125,9 +125,10 @@ export default {
   data() {
     return {
       bookId: 0,
-      bookName: "",
+      bookName: '',
+      courseName: '',
       bookSort: 1,
-      countNum: 1,
+      whichDay: 1,
       schedule: 0,
     }
   },
@@ -139,8 +140,9 @@ export default {
       }).then(res => {
         this.bookSort = res.data.bookSort
         this.bookName = res.data.bookName
+        this.courseName = res.data.courseName
         this.schedule = res.data.schedule
-        this.schedule = 2
+        this.whichDay = res.data.whichDay
       }).catch(error => {
         this.$toast(error.message)
       })

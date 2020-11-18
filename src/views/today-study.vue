@@ -19,10 +19,10 @@
         <study-review :knowlegeType="3" />
       </van-tab>
       <van-tab title="运用">
-        <study-review :knowlegeType="4" />
+        <apply-review :knowlegeType="4" />
       </van-tab>
       <van-tab title="闯关">
-        <study-review :knowlegeType="5" />
+        <level-review :knowlegeType="5" />
       </van-tab>
     </van-tabs>
   </div>
@@ -30,10 +30,14 @@
 
 <script>
 import StudyReview from './components/study-review'
+import ApplyReview from './components/apply-review'
+import LevelReview from './components/level-review'
 export default {
   name: 'ToadyStudy',
   components: {
-    StudyReview
+    StudyReview,
+    ApplyReview,
+    LevelReview
   },
   data() {
     return {

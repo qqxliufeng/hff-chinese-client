@@ -13,7 +13,7 @@
     </div>
     <div class="content-wrapper">
       <div
-        class="item-wrapper flex align-center"
+        class="item-wrapper flex"
         v-for="(item, index) of actionItems"
         :key="index"
         @click="item.click"
@@ -146,6 +146,7 @@ export default {
         font-size: 0.35rem;
         font-weight: bold;
         padding-left: 0.3rem;
+        padding-top: 0.1rem;
       }
       .icon-wrapper {
         font-size: 0.4rem;
