@@ -107,10 +107,7 @@ Vue.prototype.$http = function ({ url, methods = 'POST', headers = {}, data = {}
       // if (isWeiXin) {
       //   window.location.href = urlPath.weixinAuthUrl
       // }
-      return {
-        code: 401,
-        msg: '登录已过期，请重新登录…'
-      }
+      throw new Error('登录已过期，请重新登录…')
     }
     afterRequest && afterRequest()
     if (res.code && res.code === 200) {

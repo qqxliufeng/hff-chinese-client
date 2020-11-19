@@ -95,7 +95,7 @@ export default {
           this.$toast(res.msg)
         }
       }).catch(error => {
-        this.$toast(error)
+        this.$toast(error.message)
       })
     },
     bindPhone() {
@@ -120,7 +120,7 @@ export default {
         this.$user.saveBindAccountState(1)
         this.getData()
       }).catch(error => {
-        this.$toast(error.message)
+        error.message && this.$toast(error.message)
       })
     },
     getData() {

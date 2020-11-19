@@ -54,6 +54,11 @@
               :src="require('@/assets/images/book'+ bookSort +'/pic_youxi.jpg')"
             />
             <div class="item-title flex justify-center align-center">游戏</div>
+            <img
+              class="lock-wrapper"
+              :src="require('@/assets/images/lock.png')"
+              v-if="schedule < 2"
+            />
           </div>
         </div>
         <div class="action-wrapper flex justify-center margin-top-sm">
@@ -66,6 +71,11 @@
               :src="require('@/assets/images/book'+ bookSort +'/pic_yunyong.jpg')"
             />
             <div class="item-title flex justify-center align-center">运用</div>
+            <img
+              class="lock-wrapper"
+              :src="require('@/assets/images/lock.png')"
+              v-if="schedule < 3"
+            />
           </div>
           <div
             class="item-wrapper"
@@ -76,6 +86,11 @@
               :src="require('@/assets/images/book'+ bookSort +'/pic_chuangguan.jpg')"
             />
             <div class="item-title flex justify-center align-center">闯关</div>
+            <img
+              class="lock-wrapper"
+              :src="require('@/assets/images/lock.png')"
+              v-if="schedule < 4"
+            />
           </div>
         </div>
       </div>
@@ -256,6 +271,13 @@ export default {
         box-sizing: border-box;
         overflow: hidden;
         position: relative;
+        .lock-wrapper {
+          position: absolute;
+          bottom: 18%;
+          right: 12%;
+          width: 0.6rem;
+          height: 0.6rem;
+        }
         .item {
           height: 90%;
           width: 80%;
