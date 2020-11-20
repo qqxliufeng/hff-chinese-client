@@ -8,14 +8,16 @@ Vue.prototype.$startGame = function (params = null) {
   return basePath
 }
 
-export const apiAddress = 'http://segeg.free.idcfengye.com'
+// export const apiAddress = 'http://segeg.free.idcfengye.com'
+
+export const apiAddress = 'http://syadmin.qjia.tech'
 
 export const baseAddress = 'http://hff.youcanedu.net/'
 
 export const weixinAuthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9ea7f0838b6db24a&redirect_uri=' + baseAddress + '&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect'
 
-// const baseModule = '/user-api/'
-const baseModule = '/'
+const baseModule = '/user-api/'
+// const baseModule = '/'
 
 const userModule = baseModule + 'user/'
 

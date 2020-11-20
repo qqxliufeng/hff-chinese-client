@@ -166,25 +166,25 @@ export default {
       this.$router.push({ name: 'todayStudy', query: { date: formatMonth(new Date(), true) } })
     },
     review() {
-      this.$router.push({ name: 'review', query: { schedule: this.schedule } })
+      window.location.href = this.$startGame({ type: 'reviewOrStudy', schedule: this.schedule, extra: '' })
     },
     game() {
       if (this.schedule >= 2) {
-        this.$router.push({ name: 'welcomeGame', query: { type: 1 } })
+        window.location.href = this.$startGame({ type: 'game', schedule: this.schedule, extra: '' })
       } else {
         this.$toast('请先学习新知识才能玩游戏呢~')
       }
     },
     apply() {
       if (this.schedule >= 3) {
-        this.$router.push({ name: 'welcomeGame', query: { type: 2 } })
+        window.location.href = this.$startGame({ type: 'apply', schedule: this.schedule, extra: '' })
       } else {
         this.$toast('请先学完游戏中的知识才能进行运用呢~')
       }
     },
     level() {
       if (this.schedule >= 4) {
-        this.$router.push({ name: 'welcomeGame', query: { type: 3 } })
+        window.location.href = this.$startGame({ type: 'level', schedule: this.schedule, extra: '' })
       } else {
         this.$toast('请先学完运用中的知识才能进行闯关呢~')
       }

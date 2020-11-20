@@ -1,3 +1,5 @@
+import { apiAddress } from "../data/url-path"
+
 /**
  * 校验手机号是否合法
  * @param {手机号} phone 
@@ -8,7 +10,7 @@ export function validatePhone(phone) {
 
 export function getAudioPath(path) {
   if (path) {
-    return 'http://syadmin.qjia.tech' + path
+    return apiAddress + path
   }
   return ''
 }

@@ -27,7 +27,6 @@
 <script>
 import { STUDY_MODE_EXPERIENCE } from '../data/user'
 import { STUDY_MODE_VIP } from '../data/user'
-import { bindWXReadyListener } from '@/views/wx/wx-utils'
 export default {
   name: 'Welcome',
   methods: {
@@ -67,11 +66,6 @@ export default {
     }
   },
   mounted() {
-    bindWXReadyListener(() => {
-      const audioPath = require('../assets/audio/game_start_' + Math.ceil(Math.random() * 2) + '.mp3')
-      const audio = new Audio(audioPath)
-      audio.play()
-    })
     this.getData()
   }
 }

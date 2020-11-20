@@ -46,7 +46,7 @@ export default {
           imgSrc: 'icon_wd_wrxx.png',
           title: '学习记录',
           click: () => {
-            this.$router.push({ name: 'todayStudy' })
+            this.$router.push({ name: 'honourList' })
           },
         },
         {
