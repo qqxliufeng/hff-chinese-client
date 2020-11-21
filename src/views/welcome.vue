@@ -49,6 +49,8 @@ export default {
       if (this.$user.isBindPhone()) {
         this.$router.replace({ name: 'index' })
       } else {
+        // 判断是不是新用户
+        this.$user.setTokenStatus(404)
         window.location.href = this.$urlPath.weixinAuthUrl
       }
     },
@@ -61,6 +63,7 @@ export default {
       if (this.$user.isBindExpAccount()) {
         this.$router.replace({ name: 'index' })
       } else {
+        this.$user.setTokenStatus(404)
         window.location.href = this.$urlPath.weixinAuthUrl
       }
     }

@@ -12,6 +12,7 @@ const user = {
     accountCheck: sessionStorage.getItem('accountCheck') || undefined,
     avatar: sessionStorage.getItem('avatar') || undefined,
     token: localStorage.getItem('token') || undefined,
+    tokenStatus: parseInt(sessionStorage.getItem('tokenStatus')) || 200, // 200 正常 404 没有 401 过期
     studyMode: sessionStorage.getItem('studyMode') || ''
   },
   getToken() {
@@ -55,7 +56,10 @@ const user = {
   },
   saveToken(token = '') {
     this.state.token = token
-    token && localStorage.setItem('token', token)
+    if (token) {
+      localStorage.setItem('token', token)
+      this.setTokenStatus(200)
+    }
   },
   saveBindAccountState(isBindAccount = 0) {
     this.state.phonenumberCheck = isBindAccount
@@ -69,6 +73,10 @@ const user = {
     localStorage.removeItem('token')
     this.state.token = undefined
     sessionStorage.clear()
+  },
+  setTokenStatus(status = 200) {
+    this.state.tokenStatus = parseInt(status)
+    sessionStorage.setItem('tokenStatus', status)
   },
   setStudyMode(mode = '') {
     this.state.studyMode = mode

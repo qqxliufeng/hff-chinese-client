@@ -50,7 +50,7 @@ Vue.use(Dialog)
 Vue.component('navi', Navi)
 Vue.component('EmptyTip', EmptyTip)
 
-localStorage.setItem('token', 'eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjlkODlkMWEyLWVmMGQtNDcxZi1hOTI4LWE4NDMzMzVmNGY1YiJ9.YkKee3U_rQjtXwaM2FyvaLhpcJIQgWqdCybVyKm4aFl1q8t6udaqnfiPHXvQl_q0JdvXcofyGbqudN9DGvDmTw')
+// localStorage.setItem('token', 'eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjlkODlkMWEyLWVmMGQtNDcxZi1hOTI4LWE4NDMzMzVmNGY1YiJ9.YkKee3U_rQjtXwaM2FyvaLhpcJIQgWqdCybVyKm4aFl1q8t6udaqnfiPHXvQl_q0JdvXcofyGbqudN9DGvDmTw')
 
 const noNeedLoginPageList = ['welcome', 'auth', 'bindPhone', 'experienceLogin']
 
@@ -106,9 +106,10 @@ Vue.prototype.$http = function ({ url, methods = 'POST', headers = {}, data = {}
     // 判断token有没有过期
     if (res.code === 401) {
       user.clearToken()
-      // if (isWeiXin) {
-      //   window.location.href = urlPath.weixinAuthUrl
-      // }
+      user.setTokenStatus(401)
+      if (isWeiXin) {
+        window.location.href = urlPath.weixinAuthUrl
+      }
       throw new Error('登录已过期，请重新登录…')
     }
     afterRequest && afterRequest()

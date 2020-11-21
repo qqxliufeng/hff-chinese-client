@@ -9,7 +9,7 @@
       @click="$router.back()"
     >
     <div class="flex-sub text-center title">{{title}}</div>
-    <div style="width: 0.8rem"></div>
+    <!-- <div style="width: 0.8rem"></div> -->
   </div>
 </template>
 
