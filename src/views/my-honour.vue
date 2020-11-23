@@ -98,7 +98,7 @@ export default {
         this.shareModel.timestamp = res.data.timestamp
         this.shareModel.signature = res.data.signature
         wx.config({
-          debug: true,
+          debug: false,
           appId: this.shareModel.appId,
           timestamp: this.shareModel.timestamp,
           nonceStr: this.shareModel.nonceStr,
@@ -115,7 +115,7 @@ export default {
           wx.updateTimelineShareData({
             title: '绘翻翻识字平台', // 分享标题
             link: baseAddress + '#/share?data=' + data,
-            imgUrl: 'http://hff.youcanedu.net/static/img/logo.0d0c9c53.png', // 分享图标
+            imgUrl: baseAddress + 'static/img/logo.0d0c9c53.png', // 分享图标
             success: () => {
               this.canShare = true
             }
