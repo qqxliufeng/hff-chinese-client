@@ -52,6 +52,11 @@ const routes = [
     component: () => import('../views/my-honour')
   },
   {
+    path: '/share',
+    name: 'share',
+    component: () => import('../views/share')
+  },
+  {
     path: '/bind-phone',
     name: 'bindPhone',
     component: () => import('../views/bind-phone')

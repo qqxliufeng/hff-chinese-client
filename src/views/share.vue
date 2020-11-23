@@ -1,19 +1,15 @@
 <template>
   <div class="container">
-    <navi
-      bgColor="transparent"
-      :showBottomLine="false"
-    />
     <div class="content flex flex-direction align-center">
       <div class="logo-wrapper">
         <img :src="require('../assets/logo.png')">
       </div>
       <div class="title">
-        我家宝贝<i>{{ dataModel.userName }}</i>在绘翻翻快乐识字完成了第<i>{{dataModel.daysNum}}</i>天的学习。
+        我在绘翻翻快乐识字完成了第<i>{{dataModel.daysNum}}</i>天的学习。
       </div>
-      <div class="cup-wrapper">
+      <!-- <div class="cup-wrapper">
         <img :src="require('../assets/images/pic_my_jiangbei.png')">
-      </div>
+      </div> -->
       <div class="info-wrapper">
         <div class="ziti-wrapper">
           <img :src="require('../assets/images/bg_my_study_info.png')">
@@ -39,47 +35,34 @@
                 </div>
               </div>
             </div>
-            <div class="bottom">
-              数据截止到：{{dataModel.endDate}}
-            </div>
           </div>
         </div>
       </div>
       <div class="bottom-wrapper flex-sub flex flex-direction align-center justify-center">
         <div class="tip">把最好的课程带给我最爱的孩子</div>
-        <div
-          class="share-button"
-          @click="share"
-        >立即分享</div>
+      </div>
+      <div class="code-wrapper">
+        <img :src="require('../assets/service_code.jpg')">
+        <div>
+          关注公众号，获取更多知识
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { encode } from 'js-base64'
-import { formatMonth } from '../utils/utils'
-import wx from 'weixin-js-sdk'
-import { baseAddress } from '../data/url-path'
-import { Dialog } from 'vant'
+import { decode } from 'js-base64'
 export default {
   name: 'MyHonour',
   data() {
     return {
       dataModel: {
-        userName: '',
-        daysNum: 0,
+        name: '',
+        days: 0,
         wordsNum: 0,
-        sentencesNum: 0,
-        endDate: ''
-      },
-      shareModel: {
-        appId: '',
-        nonceStr: '',
-        signature: '',
-        timestamp: 0
-      },
-      canShare: false
+        sentencesNum: 0
+      }
     }
   },
   mounted() {
@@ -87,52 +70,14 @@ export default {
   },
   methods: {
     getData() {
-      this.$post({
-        url: this.$urlPath.szShareStastic,
-        data: {}
-      }).then(res => {
-        this.dataModel = res.data
-        this.dataModel.endDate = formatMonth(new Date(), true)
-        this.shareModel.appId = res.data.appId
-        this.shareModel.nonceStr = res.data.nonceStr
-        this.shareModel.timestamp = res.data.timestamp
-        this.shareModel.signature = res.data.signature
-        wx.config({
-          debug: true,
-          appId: this.shareModel.appId,
-          timestamp: this.shareModel.timestamp,
-          nonceStr: this.shareModel.nonceStr,
-          signature: this.shareModel.signature,
-          jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData']
-        })
-        wx.ready(() => {
-          const data = encode(JSON.stringify({
-            d: this.dataModel.daysNum,
-            w: this.dataModel.wordsNum,
-            s: this.dataModel.sentencesNum
-          }))
-          console.log(decodeURIComponent(data))
-          wx.updateTimelineShareData({
-            title: '绘翻翻识字平台', // 分享标题
-            link: baseAddress + '#/share?data=' + data,
-            imgUrl: 'http://hff.youcanedu.net/static/img/logo.0d0c9c53.png', // 分享图标
-            success: () => {
-              this.canShare = true
-            }
-          })
-        })
-      }).catch(error => {
-        this.canShare = false
-        this.$toast(error.message)
-      })
-    },
-    share() {
-      if (this.canShare) {
-        Dialog.confirm({
-          title: '提示',
-          message: '请点击右上角更多按钮分享到朋友圈',
-        })
-      }
+      const base64string = this.$route.query.data
+      console.log(base64string)
+      const json = decode(base64string)
+      console.log(json)
+      const tempObj = JSON.parse(json)
+      this.dataModel.daysNum = tempObj.d
+      this.dataModel.wordsNum = tempObj.w
+      this.dataModel.sentencesNum = tempObj.s
     }
   }
 }
@@ -147,8 +92,8 @@ export default {
   background-size: 100% 100%;
   .content {
     .logo-wrapper {
-      width: 3rem;
-      padding-top: 2rem;
+      width: 2.5rem;
+      padding-top: 1.5rem;
       & img {
         width: 100%;
         height: 100%;
@@ -169,7 +114,7 @@ export default {
       }
     }
     .cup-wrapper {
-      width: 4.5rem;
+      width: 2rem;
       & img {
         width: 100%;
       }
@@ -179,13 +124,15 @@ export default {
       width: 80%;
       .ziti-wrapper {
         width: 100%;
+        margin-top: 2rem;
         & img {
           width: 100%;
         }
       }
       .info {
-        height: 3rem;
+        height: 2.5rem;
         width: 100%;
+        margin-top: 1.5rem;
         background-color: #ff6f60;
         border-radius: 5px;
         box-sizing: border-box;
@@ -226,7 +173,6 @@ export default {
       }
     }
     .bottom-wrapper {
-      padding-bottom: 0.5rem;
       .tip {
         margin-top: 0.5rem;
         color: #7c5b23;
@@ -242,6 +188,19 @@ export default {
         padding: 0.2rem 0;
         margin-top: 0.5rem;
         font-size: 0.35rem;
+      }
+    }
+    .code-wrapper {
+      position: fixed;
+      bottom: 0;
+      text-align: center;
+      padding-bottom: 0.5rem;
+      & img {
+        width: 2.5rem;
+      }
+      & div {
+        color: #333333;
+        font-weight: bold;
       }
     }
   }

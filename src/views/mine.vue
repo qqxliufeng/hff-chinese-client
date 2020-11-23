@@ -9,7 +9,7 @@
       <div class="avatar">
         <img :src="myAvatar" />
       </div>
-      <div class="nickname">{{$user.state.wxNickName || $user.state.nickName}}</div>
+      <div class="nickname">{{nickName}}</div>
     </div>
     <div class="content-wrapper">
       <div
@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       myAvatar: this.$user.state.avatar ? this.$user.state.avatar : defaultAvatar,
+      nickName: this.$user.state.wxNickName || this.$user.state.nickName,
       actionItems: [
         {
           imgSrc: 'icon_wd_wrxx.png',
@@ -91,6 +92,21 @@ export default {
           }
         }
       ]
+    }
+  },
+  mounted() {
+    this.getData()
+  },
+  methods: {
+    getData() {
+      this.$get({
+        url: this.$urlPath.getInfo,
+        loadingTip: '加载中…'
+      }).then((res) => {
+        this.$user.saveUser(res.user)
+        this.myAvatar = this.$user.state.avatar ? this.$user.state.avatar : defaultAvatar
+        this.nickName = this.$user.state.wxNickName || this.$user.state.nickName
+      })
     }
   }
 }
